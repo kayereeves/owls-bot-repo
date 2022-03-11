@@ -1,0 +1,99 @@
+Defaulting to user installation because normal site-packages is not writeable
+Collecting discord
+  Downloading discord-1.7.3-py3-none-any.whl (1.1 kB)
+Collecting discord.py>=1.7.3
+  Downloading discord.py-1.7.3-py3-none-any.whl (786 kB)
+Collecting aiohttp<3.8.0,>=3.6.0
+  Downloading aiohttp-3.7.4.post0-cp39-cp39-manylinux2014_x86_64.whl (1.4 MB)
+Collecting typing-extensions>=3.6.5
+  Downloading typing_extensions-4.0.1-py3-none-any.whl (22 kB)
+Collecting attrs>=17.3.0
+  Downloading attrs-21.4.0-py2.py3-none-any.whl (60 kB)
+Collecting multidict<7.0,>=4.5
+  Downloading multidict-6.0.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (114 kB)
+Collecting async-timeout<4.0,>=3.0
+  Downloading async_timeout-3.0.1-py3-none-any.whl (8.2 kB)
+Collecting chardet<5.0,>=2.0
+  Downloading chardet-4.0.0-py2.py3-none-any.whl (178 kB)
+Collecting yarl<2.0,>=1.0
+  Downloading yarl-1.7.2-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl (304 kB)
+Requirement already satisfied: idna>=2.0 in /usr/lib/python3/dist-packages (from yarl<2.0,>=1.0->aiohttp<3.8.0,>=3.6.0->discord.py>=1.7.3->discord) (2.6)
+Installing collected packages: multidict, yarl, typing-extensions, chardet, attrs, async-timeout, aiohttp, discord.py, discord
+  WARNING: The script chardetect is installed in '/home/minecraft/multicraft/servers/server257306/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Successfully installed aiohttp-3.7.4.post0 async-timeout-3.0.1 attrs-21.4.0 chardet-4.0.0 discord-1.7.3 discord.py-1.7.3 multidict-6.0.2 typing-extensions-4.0.1 yarl-1.7.2
+WARNING: You are using pip version 21.2.4; however, version 22.0.3 is available.
+You should consider upgrading via the '/usr/bin/python3.7 -m pip install --upgrade pip' command.
+Defaulting to user installation because normal site-packages is not writeable
+ERROR: Could not find a version that satisfies the requirement random (from versions: none)
+ERROR: No matching distribution found for random
+WARNING: You are using pip version 21.2.4; however, version 22.0.3 is available.
+You should consider upgrading via the '/usr/bin/python3.7 -m pip install --upgrade pip' command.
+Defaulting to user installation because normal site-packages is not writeable
+ERROR: Could not find a version that satisfies the requirement discord.ext (from versions: none)
+ERROR: No matching distribution found for discord.ext
+WARNING: You are using pip version 21.2.4; however, version 22.0.3 is available.
+You should consider upgrading via the '/usr/bin/python3.7 -m pip install --upgrade pip' command.
+Defaulting to user installation because normal site-packages is not writeable
+ERROR: Could not find a version that satisfies the requirement discord_slash (from versions: none)
+ERROR: No matching distribution found for discord_slash
+WARNING: You are using pip version 21.2.4; however, version 22.0.3 is available.
+You should consider upgrading via the '/usr/bin/python3.7 -m pip install --upgrade pip' command.
+Defaulting to user installation because normal site-packages is not writeable
+Collecting datetime
+  Downloading DateTime-4.3-py2.py3-none-any.whl (60 kB)
+Collecting pytz
+  Downloading pytz-2021.3-py2.py3-none-any.whl (503 kB)
+Collecting zope.interface
+  Downloading zope.interface-5.4.0-cp39-cp39-manylinux2010_x86_64.whl (255 kB)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.9/dist-packages (from zope.interface->datetime) (58.1.0)
+Installing collected packages: zope.interface, pytz, datetime
+Successfully installed datetime-4.3 pytz-2021.3 zope.interface-5.4.0
+WARNING: You are using pip version 21.2.4; however, version 22.0.3 is available.
+You should consider upgrading via the '/usr/bin/python3.7 -m pip install --upgrade pip' command.
+Defaulting to user installation because normal site-packages is not writeable
+Collecting mysql.connector
+  Downloading mysql-connector-2.2.9.tar.gz (11.9 MB)
+Building wheels for collected packages: mysql.connector
+  Building wheel for mysql.connector (setup.py): started
+  Building wheel for mysql.connector (setup.py): finished with status 'done'
+  Created wheel for mysql.connector: filename=mysql_connector-2.2.9-cp39-cp39-linux_x86_64.whl size=241989 sha256=8e817e2cef05622da62b0681ba41e048f658a50a3102ed04bafb6edd5fd92695
+  Stored in directory: /home/minecraft/multicraft/servers/server257306/.cache/pip/wheels/7b/14/39/5aad423666e827dfe9a1fbcd111ac17171e7c9865d570780ce
+Successfully built mysql.connector
+Installing collected packages: mysql.connector
+Successfully installed mysql.connector-2.2.9
+WARNING: You are using pip version 21.2.4; however, version 22.0.3 is available.
+You should consider upgrading via the '/usr/bin/python3.7 -m pip install --upgrade pip' command.
+Defaulting to user installation because normal site-packages is not writeable
+Collecting pandas
+  Downloading pandas-1.4.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (11.7 MB)
+Collecting numpy>=1.18.5
+  Downloading numpy-1.22.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (16.8 MB)
+Requirement already satisfied: pytz>=2020.1 in ./.local/lib/python3.9/site-packages (from pandas) (2021.3)
+Collecting python-dateutil>=2.8.1
+  Downloading python_dateutil-2.8.2-py2.py3-none-any.whl (247 kB)
+Requirement already satisfied: six>=1.5 in /usr/lib/python3/dist-packages (from python-dateutil>=2.8.1->pandas) (1.11.0)
+Installing collected packages: python-dateutil, numpy, pandas
+  WARNING: The scripts f2py, f2py3 and f2py3.9 are installed in '/home/minecraft/multicraft/servers/server257306/.local/bin' which is not on PATH.
+  Consider adding this directory to PATH or, if you prefer to suppress this warning, use --no-warn-script-location.
+Successfully installed numpy-1.22.2 pandas-1.4.0 python-dateutil-2.8.2
+WARNING: You are using pip version 21.2.4; however, version 22.0.3 is available.
+You should consider upgrading via the '/usr/bin/python3.7 -m pip install --upgrade pip' command.
+Defaulting to user installation because normal site-packages is not writeable
+ERROR: Could not find a version that satisfies the requirement csv (from versions: none)
+ERROR: No matching distribution found for csv
+WARNING: You are using pip version 21.2.4; however, version 22.0.3 is available.
+You should consider upgrading via the '/usr/bin/python3.7 -m pip install --upgrade pip' command.
+Defaulting to user installation because normal site-packages is not writeable
+Collecting sqlalchemy
+  Downloading SQLAlchemy-1.4.31-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.6 MB)
+Collecting greenlet!=0.4.17
+  Downloading greenlet-1.1.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (153 kB)
+Installing collected packages: greenlet, sqlalchemy
+Successfully installed greenlet-1.1.2 sqlalchemy-1.4.31
+WARNING: You are using pip version 21.2.4; however, version 22.0.3 is available.
+You should consider upgrading via the '/usr/bin/python3.7 -m pip install --upgrade pip' command.
+Traceback (most recent call last):
+  File "/home/minecraft/multicraft/servers/server257306/nc_bot.py", line 4, in <module>
+    from discord_slash import SlashCommand, SlashContext
+ModuleNotFoundError: No module named 'discord_slash'

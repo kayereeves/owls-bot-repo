@@ -1,0 +1,10 @@
+discord
+random
+discord.ext
+discord-py-interactions
+datetime
+mysql.connector
+pandas
+csv
+sqlalchemy
+python-dotenv

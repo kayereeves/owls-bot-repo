@@ -1,0 +1,61 @@
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: discord in ./.local/lib/python3.9/site-packages (1.7.3)
+Requirement already satisfied: discord.py>=1.7.3 in ./.local/lib/python3.9/site-packages (from discord) (1.7.3)
+Requirement already satisfied: aiohttp<3.8.0,>=3.6.0 in ./.local/lib/python3.9/site-packages (from discord.py>=1.7.3->discord) (3.7.4.post0)
+Requirement already satisfied: multidict<7.0,>=4.5 in ./.local/lib/python3.9/site-packages (from aiohttp<3.8.0,>=3.6.0->discord.py>=1.7.3->discord) (6.0.2)
+Requirement already satisfied: typing-extensions>=3.6.5 in ./.local/lib/python3.9/site-packages (from aiohttp<3.8.0,>=3.6.0->discord.py>=1.7.3->discord) (4.0.1)
+Requirement already satisfied: async-timeout<4.0,>=3.0 in ./.local/lib/python3.9/site-packages (from aiohttp<3.8.0,>=3.6.0->discord.py>=1.7.3->discord) (3.0.1)
+Requirement already satisfied: chardet<5.0,>=2.0 in ./.local/lib/python3.9/site-packages (from aiohttp<3.8.0,>=3.6.0->discord.py>=1.7.3->discord) (4.0.0)
+Requirement already satisfied: yarl<2.0,>=1.0 in ./.local/lib/python3.9/site-packages (from aiohttp<3.8.0,>=3.6.0->discord.py>=1.7.3->discord) (1.7.2)
+Requirement already satisfied: attrs>=17.3.0 in ./.local/lib/python3.9/site-packages (from aiohttp<3.8.0,>=3.6.0->discord.py>=1.7.3->discord) (21.4.0)
+Requirement already satisfied: idna>=2.0 in /usr/lib/python3/dist-packages (from yarl<2.0,>=1.0->aiohttp<3.8.0,>=3.6.0->discord.py>=1.7.3->discord) (2.6)
+WARNING: You are using pip version 21.2.4; however, version 22.0.3 is available.
+You should consider upgrading via the '/usr/bin/python3.7 -m pip install --upgrade pip' command.
+Defaulting to user installation because normal site-packages is not writeable
+ERROR: Could not find a version that satisfies the requirement random (from versions: none)
+ERROR: No matching distribution found for random
+WARNING: You are using pip version 21.2.4; however, version 22.0.3 is available.
+You should consider upgrading via the '/usr/bin/python3.7 -m pip install --upgrade pip' command.
+Defaulting to user installation because normal site-packages is not writeable
+ERROR: Could not find a version that satisfies the requirement discord.ext (from versions: none)
+ERROR: No matching distribution found for discord.ext
+WARNING: You are using pip version 21.2.4; however, version 22.0.3 is available.
+You should consider upgrading via the '/usr/bin/python3.7 -m pip install --upgrade pip' command.
+Defaulting to user installation because normal site-packages is not writeable
+ERROR: Could not find a version that satisfies the requirement discord_slash.py (from versions: none)
+ERROR: No matching distribution found for discord_slash.py
+WARNING: You are using pip version 21.2.4; however, version 22.0.3 is available.
+You should consider upgrading via the '/usr/bin/python3.7 -m pip install --upgrade pip' command.
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: datetime in ./.local/lib/python3.9/site-packages (4.3)
+Requirement already satisfied: zope.interface in ./.local/lib/python3.9/site-packages (from datetime) (5.4.0)
+Requirement already satisfied: pytz in ./.local/lib/python3.9/site-packages (from datetime) (2021.3)
+Requirement already satisfied: setuptools in /usr/local/lib/python3.9/dist-packages (from zope.interface->datetime) (58.1.0)
+WARNING: You are using pip version 21.2.4; however, version 22.0.3 is available.
+You should consider upgrading via the '/usr/bin/python3.7 -m pip install --upgrade pip' command.
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: mysql.connector in ./.local/lib/python3.9/site-packages (2.2.9)
+WARNING: You are using pip version 21.2.4; however, version 22.0.3 is available.
+You should consider upgrading via the '/usr/bin/python3.7 -m pip install --upgrade pip' command.
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: pandas in ./.local/lib/python3.9/site-packages (1.4.0)
+Requirement already satisfied: python-dateutil>=2.8.1 in ./.local/lib/python3.9/site-packages (from pandas) (2.8.2)
+Requirement already satisfied: pytz>=2020.1 in ./.local/lib/python3.9/site-packages (from pandas) (2021.3)
+Requirement already satisfied: numpy>=1.18.5 in ./.local/lib/python3.9/site-packages (from pandas) (1.22.2)
+Requirement already satisfied: six>=1.5 in /usr/lib/python3/dist-packages (from python-dateutil>=2.8.1->pandas) (1.11.0)
+WARNING: You are using pip version 21.2.4; however, version 22.0.3 is available.
+You should consider upgrading via the '/usr/bin/python3.7 -m pip install --upgrade pip' command.
+Defaulting to user installation because normal site-packages is not writeable
+ERROR: Could not find a version that satisfies the requirement csv (from versions: none)
+ERROR: No matching distribution found for csv
+WARNING: You are using pip version 21.2.4; however, version 22.0.3 is available.
+You should consider upgrading via the '/usr/bin/python3.7 -m pip install --upgrade pip' command.
+Defaulting to user installation because normal site-packages is not writeable
+Requirement already satisfied: sqlalchemy in ./.local/lib/python3.9/site-packages (1.4.31)
+Requirement already satisfied: greenlet!=0.4.17 in ./.local/lib/python3.9/site-packages (from sqlalchemy) (1.1.2)
+WARNING: You are using pip version 21.2.4; however, version 22.0.3 is available.
+You should consider upgrading via the '/usr/bin/python3.7 -m pip install --upgrade pip' command.
+Traceback (most recent call last):
+  File "/home/minecraft/multicraft/servers/server257306/nc_bot.py", line 4, in <module>
+    from discord_slash import SlashCommand, SlashContext
+ModuleNotFoundError: No module named 'discord_slash'
