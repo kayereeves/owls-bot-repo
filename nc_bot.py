@@ -16,10 +16,7 @@ bot = commands.Bot(command_prefix="!", intents=discord.Intents.all())
 slash = SlashCommand(bot, sync_commands=True)
 
 images = [
-    'https://i.imgur.com/FD1h5Hi.gif',
-    'https://i.imgur.com/KzpDj6J.gif',
-    'https://i.imgur.com/ADRCu2K.gif',
-    'https://i.imgur.com/klmEBxc.gif']
+    'https://i.imgur.com/x6nMAnJ.png']
 
 # commands from discord message
 
@@ -93,10 +90,11 @@ async def tr(ctx, sent: str, received: str, notes: str=None, date: str=None):
             await confirmation.edit(embed=failed_message)
             await confirmation.clear_reactions()
         else:
-            user_stats = return_stats(ctx)
+            #user_stats = return_stats(ctx)
             success_message = discord.Embed (
             title = 'Trade reported successfully!',
-            description = '```xl\nYou have now reported ' + str(user_stats) + ' trades.```',
+            #description = '```xl\nYou have now reported ' + str(user_stats) + ' trades.```',
+            description = '```xl\nThe Owls thank you! 🦉```',
             color = 0x789900   
             )                 
             success_message.set_thumbnail(url=random.choice(images))
@@ -366,7 +364,7 @@ async def bothelp(ctx):
 # creates a download file of recently reported trading data
 @bot.command()
 async def download(ctx, date):
-    if (str(ctx.author) in ('imgonnageta#1995', 'maya#6899', 'rawxbee#8145')):
+    if (str(ctx.author) in ('imgonnageta#1995', 'Kaye#1200')):
         result = return_file(date)
         file_path = "download.csv"
         if result:

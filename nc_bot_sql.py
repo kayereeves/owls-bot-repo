@@ -8,7 +8,13 @@ import csv
 from sqlalchemy import create_engine, types
 
 def runQuery(query, return_result=True):
-    conn = mysql.connector.connect()
+    conn = mysql.connector.connect(
+        host="na02-sql.pebblehost.com",
+        user="customer_257306_codenames",
+        password="gjC!o-aUZ78nSMn8ob1d",
+        database="customer_257306_codenames"
+    )
+    
     if conn.is_connected():
         cursor = conn.cursor()
         cursor.execute(query)
@@ -68,7 +74,7 @@ def add_trade(user_id, sent, received, ds=None, notes=None):
 
     try:
         runQuery(query_update %args, False)
-        update_user_logs(user_id)
+        #update_user_logs(user_id)
         return True
     except Exception as e:
         print(e)
@@ -253,9 +259,9 @@ def return_leaderboard(ctx):
         return False
 
 def return_file(date):
-    mysql_user = 'customer_257306_codenames@167.99.0.195'
+    mysql_user = 'customer_257306_codenames'
     mysql_password = 'gjC!o-aUZ78nSMn8ob1d'
-    db_name = 'OWLS'
+    db_name = 'customer_257306_codenames'
 
     connection_string = ''
     engine = create_engine(f'mysql+mysqlconnector://{connection_string}')
