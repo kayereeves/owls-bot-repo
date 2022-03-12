@@ -253,9 +253,9 @@ def return_leaderboard(ctx):
         return False
 
 def return_file(date):
-    mysql_user = 'doadmin'
-    mysql_password = 'yoozmkofqoda545k'
-    db_name = 'codenames'
+    mysql_user = 'customer_257306_codenames@167.99.0.195'
+    mysql_password = 'gjC!o-aUZ78nSMn8ob1d'
+    db_name = 'OWLS'
 
     connection_string = ''
     engine = create_engine(f'mysql+mysqlconnector://{connection_string}')
