@@ -289,42 +289,6 @@ async def logs(ctx):
         womp.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!")
         message = await ctx.send(embed = womp)
 
-#returns amount of trades reported
-@slash.slash(name="stats",
-            description="View your stats.",
-            guild_ids=[])
-            
-@bot.command()
-async def stats(ctx):
-    user_results = return_stats(ctx)
-    stats = discord.Embed (
-        title = 'Stats for: ' + str(ctx.author),
-        description = '```xl\nTrades reported using Report-A-Trade Bot: ' + str(user_results) + '```',
-        color = 0x27a198
-    )
-    stats.set_thumbnail(url=random.choice(images))
-    stats.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!")
-                    
-    await ctx.send(embed=stats)
-
-# prints leaderboard of top members who submitted reports
-@slash.slash(name="leaderboard",
-            description="View the leaderboard.",
-            guild_ids=[])
-            
-@bot.command()
-async def leaderboard(ctx):
-    leaderboard = return_leaderboard(ctx)
-    leaderboard_embed = discord.Embed (
-        title = 'Report-A-Trade Bot Leaderboard',
-        description = leaderboard,
-        color = 0xa78900
-    )
-    leaderboard_embed.set_thumbnail(url=random.choice(images))
-    leaderboard_embed.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!")
-                    
-    await ctx.send(embed=leaderboard_embed)
-
 # prints help for use of bot
 @slash.slash(name="help",
             description="View command info for Report-A-Trade Bot.",
@@ -348,13 +312,7 @@ async def bothelp(ctx):
         \nSearch the database. You will be prompted to input the item which you wish to view trade reports for.\n
 
         ```\n**/logs**\n
-        ```\nView the 40 most recent reported trades.\n```\n
-        
-        **/stats**\n
-        ```\nView how many contributions you have made to the database.\n```\n
-
-        **/leaderboard**\n
-        ```\nView the top 10 reporters.\n```""",
+        ```\nView the 40 most recent reported trades.\n```""",
         color = 0xE5D8D9
     )
     bothelp.set_thumbnail(url=random.choice(images))

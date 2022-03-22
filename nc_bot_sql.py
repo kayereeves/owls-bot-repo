@@ -222,48 +222,12 @@ def recent_trades(ctx):
         print(e)
         return False
 
-def return_stats(ctx):
-    user = ctx.author
-    query_retrieve = "SELECT * from trading_users where user_id = '%s'" %(user)
-    results = runQuery(query_retrieve)[0]
-    str_results = '%d' %(results[1])
-    return str_results
-
-def return_leaderboard(ctx):
-    try:
-        query_retrieve = """SELECT 
-                              user_id
-                              , trades
-                              FROM trading_users
-                            ORDER BY trades DESC
-                            LIMIT 10;"""
-        results = runQuery(query_retrieve)
-        i = 0
-        emoji = ['1️⃣', '2️⃣', '3️⃣', '4️⃣', '5️⃣', '6️⃣', '7️⃣', '8️⃣', '9️⃣', '🔟']
-        leaderboard = ''
-        for row in results:
-            if i != 10:
-                user = row[0]
-                trades = row[1]
-                place = '```fix\n' + emoji[i] + ' ' + user + ' = ' + str(trades) + '```\n'
-                leaderboard += place
-                i += 1
-            else:
-                break
-        return leaderboard
-
-
-    
-    except Exception as e:
-        print(e)
-        return False
-
 def return_file(date):
     mysql_user = 'customer_257306_codenames'
     mysql_password = 'gjC!o-aUZ78nSMn8ob1d'
     db_name = 'customer_257306_codenames'
 
-    connection_string = ''
+    connection_string = 'customer_257306_codenames:gjC!o-aUZ78nSMn8ob1d@na02-sql.pebblehost.com/customer_257306_codenames'
     engine = create_engine(f'mysql+mysqlconnector://{connection_string}')
 
     file_path = "download.csv"
