@@ -205,8 +205,8 @@ async def search(ctx, query):
         message = await ctx.send(embed = womp)
 
 @bot.command()
-async def bothelp(ctx):
-    bothelp = discord.Embed (
+async def owl(ctx):
+    owl = discord.Embed (
         title = 'OwlBot 2.0 Help',
         description = 
         """This bot helps record and display NC trade report data submitted by the community. Type `/` followed by a command to interact with the bot.
@@ -217,9 +217,9 @@ async def bothelp(ctx):
         ```\nSearch the database. You will be prompted to input the item which you wish to view trade reports for.```""",
         color = 0xE5D8D9
     )
-    bothelp.set_thumbnail(url=random.choice(images))
+    owl.set_thumbnail(url=random.choice(images))
                     
-    await ctx.send(embed=bothelp)
+    await ctx.send(embed=owl)
 
 # creates a download file of recently reported trading data
 @bot.command()
