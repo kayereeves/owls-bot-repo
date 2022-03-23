@@ -321,7 +321,7 @@ async def bothelp(ctx):
 
 # creates a download file of recently reported trading data
 @bot.command()
-async def download(ctx, date):
+async def download(ctx, date='1980-01-01'):
     if (str(ctx.author) in ('imgonnageta#1995', 'Kaye#1200')):
         result = return_file(date)
         file_path = "download.csv"

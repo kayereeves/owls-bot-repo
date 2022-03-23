@@ -231,7 +231,7 @@ def return_file(date):
     engine = create_engine(f'mysql+mysqlconnector://{connection_string}')
 
     file_path = "download.csv"
-    query = "select traded, traded_for, ds, notes from transactions where ds >= '" + date + "' order by ds"
+    query = "select user_id, traded, traded_for, ds, notes from transactions where ds >= '" + date + "' order by ds"
     print(query)
 
     df = pd.read_sql(sql=query, con=engine)
