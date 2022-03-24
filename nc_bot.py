@@ -214,7 +214,9 @@ async def owl(ctx):
         **/report**
         ```\nSubmit a trade report. You will be prompted to input what you sent and what you received.\n\nYou may also choose to add a note to your report as well as record the date in YYYY-MM-DD format (if you do not input a date, the current date will be used).```
         **/search**
-        ```\nSearch the database. You will be prompted to input the item which you wish to view trade reports for.```""",
+        ```\nSearch the database. You will be prompted to input the item which you wish to view trade reports for.```
+        **!owlcredits**
+        ```\nView credits for OwlBot 2.0.```""",
         color = 0xE5D8D9
     )
     owl.set_thumbnail(url=random.choice(images))
@@ -229,5 +231,26 @@ async def download(ctx, date='1980-01-01'):
         file_path = "download.csv"
         if result:
             await ctx.send(file=discord.File(file_path))
+            
+@bot.command()            
+async def owlcredits(ctx):
+    owlcredits = discord.Embed (
+        title = 'OwlBot Credits!',
+        description = 
+        """**🦉 Maya and Rawbee**
+        ```\noriginal source code```
+        **🦉 Ben**
+        ```\nOwls CSV parser```
+        **🦉 Kaye, Mallory, and Kat**
+        ```\nbuilding and maintaining OwlBot 2.0```
+        **🦉 The ~Owls team**
+        ```\nworking tirelessly to collect, record, and count trade data```
+        **🦉 YOU**
+        ```\nthanks for submitting your trades to us, we couldn't do it without you ❤️```""",
+        color = 0xE5D8D9
+    )
+    owlcredits.set_thumbnail(url=random.choice(images))
+                    
+    await ctx.send(embed=owlcredits)
 
 bot.run(tok)
