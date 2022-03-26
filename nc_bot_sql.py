@@ -109,7 +109,11 @@ def return_trades(query):
                         n = '*** notes: ' + row[3].replace('"','') + '\n'
                     else:
                         n = ''
-                    formatted_date = row[2].strftime('%Y-%m-%d')
+                        
+                    if row[2] is not None:
+                        formatted_date = row[2].strftime('%Y-%m-%d')
+                    else:
+                        formatted_date = '2000-01-01'
                     # If total_page_results is 4, append that page to the list cleaned_page_results and begin a new page
                     if total_page_results == 4:
                         cleaned_page_results.append(page_results)
