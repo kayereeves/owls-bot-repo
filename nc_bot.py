@@ -103,7 +103,7 @@ async def report(ctx, sent: str, received: str, notes: str=None, date: str=None)
     if reaction.emoji == '👎' and reaction.message.id == confirmation_id:
         discard_message = discord.Embed (
         title = 'Trade report discarded successfully!',
-        description = '```Alright, I have set that report on a course for the nearest birds nest. Please try again!```',
+        description = '```Alright, I have set that report on a course for the nearest birds nest to be recycled for nesting material. Please try again!```',
         color = 0xa52d2f   
         )                 
         discard_message.set_thumbnail(url=random.choice(images))
