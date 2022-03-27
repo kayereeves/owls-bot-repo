@@ -223,11 +223,20 @@ async def owl(ctx):
                     
     await ctx.send(embed=owl)
 
-# creates a download file of recently reported trading data
+# creates a download file of the bot's data
 @bot.command()
 async def download(ctx, date='1980-01-01'):
     if (str(ctx.author) in ('imgonnageta#1995', 'Kaye#1200')):
         result = return_file(date)
+        file_path = "download.csv"
+        if result:
+            await ctx.send(file=discord.File(file_path))
+            
+# creates a download file of recently reported trading data
+@bot.command()
+async def downloadnew(ctx):
+    if (str(ctx.author) in ('imgonnageta#1995', 'Kaye#1200')):
+        result = return_new()
         file_path = "download.csv"
         if result:
             await ctx.send(file=discord.File(file_path))

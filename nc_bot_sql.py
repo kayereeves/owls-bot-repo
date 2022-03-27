@@ -50,7 +50,8 @@ def add_trade(user_id, sent, received, ds=None, notes=None):
         notes = ""
 
     loaded_ds = 'now()'
-    transaction_id = user_id + datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    #transaction_id = user_id + datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    transaction_id = "new"
     args = (loaded_ds, transaction_id, user_id, sent, received, dt_fin, notes)
 
 
@@ -157,7 +158,23 @@ def return_file(date):
     engine = create_engine(f'mysql+mysqlconnector://{connection_string}')
 
     file_path = "download.csv"
-    query = "select user_id, traded, traded_for, ds, notes from transactions where ds >= '" + date + "' order by ds"
+    query = "select user_id, traded, traded_for, ds, notes from transactions where loaded_at >= '" + date + "' order by loaded_at"
+    print(query)
+
+    df = pd.read_sql(sql=query, con=engine)
+    df.to_csv(file_path, index=False)
+    return True
+    
+def return_new():
+    mysql_user = 'customer_257306_codenames'
+    mysql_password = 'gjC!o-aUZ78nSMn8ob1d'
+    db_name = 'customer_257306_codenames'
+
+    connection_string = 'customer_257306_codenames:gjC!o-aUZ78nSMn8ob1d@na02-sql.pebblehost.com/customer_257306_codenames'
+    engine = create_engine(f'mysql+mysqlconnector://{connection_string}')
+
+    file_path = "download.csv"
+    query = "select user_id, traded, traded_for, ds, notes from transactions where transaction_id = 'new' order by loaded_at"
     print(query)
 
     df = pd.read_sql(sql=query, con=engine)
