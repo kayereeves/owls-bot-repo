@@ -190,7 +190,7 @@ async def search(ctx, query):
                     await message.clear_reactions()
                 
                 try:
-                    reaction, user = await bot.wait_for('reaction_add', timeout = 30.0, check = check)
+                    reaction, user = await bot.wait_for('reaction_add', timeout = 90.0, check = check)
                     await message.remove_reaction(reaction, user)
                 except:
                     break
