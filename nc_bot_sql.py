@@ -9,10 +9,10 @@ from sqlalchemy import create_engine, types
 
 def runQuery(query, return_result=True):
     conn = mysql.connector.connect(
-        host="na02-sql.pebblehost.com",
-        user="customer_257306_codenames",
-        password="gjC!o-aUZ78nSMn8ob1d",
-        database="customer_257306_codenames"
+        host="owls-db.c9hvuhvpnktp.us-west-2.rds.amazonaws.com",
+        user="owls",
+        password="vHAxYRzjZYSEr6E",
+        database="owls"
     )
     
     if conn.is_connected():
@@ -150,11 +150,7 @@ def return_trades(query):
         return False
 
 def return_file(date):
-    mysql_user = 'customer_257306_codenames'
-    mysql_password = 'gjC!o-aUZ78nSMn8ob1d'
-    db_name = 'customer_257306_codenames'
-
-    connection_string = 'customer_257306_codenames:gjC!o-aUZ78nSMn8ob1d@na02-sql.pebblehost.com/customer_257306_codenames'
+    connection_string = 'owls:vHAxYRzjZYSEr6E@owls-db.c9hvuhvpnktp.us-west-2.rds.amazonaws.com/owls'
     engine = create_engine(f'mysql+mysqlconnector://{connection_string}')
 
     file_path = "download.csv"
@@ -166,11 +162,7 @@ def return_file(date):
     return True
     
 def return_new():
-    mysql_user = 'customer_257306_codenames'
-    mysql_password = 'gjC!o-aUZ78nSMn8ob1d'
-    db_name = 'customer_257306_codenames'
-
-    connection_string = 'customer_257306_codenames:gjC!o-aUZ78nSMn8ob1d@na02-sql.pebblehost.com/customer_257306_codenames'
+    connection_string = 'owls:vHAxYRzjZYSEr6E@owls-db.c9hvuhvpnktp.us-west-2.rds.amazonaws.com/owls'
     engine = create_engine(f'mysql+mysqlconnector://{connection_string}')
 
     file_path = "download.csv"
