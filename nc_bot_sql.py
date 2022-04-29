@@ -75,6 +75,7 @@ def return_trades(query):
                               , user_id
                               FROM transactions
                             WHERE traded LIKE '%%%s%%'
+                            AND traded NOT LIKE '%%Dyeworks %%: %s%%'
                             UNION ALL
                             SELECT 
                               traded AS item
@@ -83,10 +84,11 @@ def return_trades(query):
                               , notes
                               , user_id
                               FROM transactions
-                            WHERE traded_for LIKE '%%%s%%') trns
+                            WHERE traded_for LIKE '%%%s%%'
+                            AND traded_for NOT LIKE '%%Dyeworks %%: %s%%') trns
                             GROUP BY 1,2,3,4,5
                             ORDER BY ds DESC
-                            LIMIT 20;""" %(item, item)
+                            LIMIT 20;""" %(item, item, item, item)
         results = runQuery(query_retrieve)
         cleaned_page_results = ""
         for row in results:
