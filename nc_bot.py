@@ -137,13 +137,13 @@ async def search(ctx, query):
                 color = 0x789900
     )
         page.set_thumbnail(url=random.choice(images))
-        if trade_results[0] < 5:
+        if trade_results[0] < 6:
             page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!")
         else:
             page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!\nPage 1")
         pages = [page]
         try:
-            while i < 5:
+            while i < 3:
                 i += 1
                 page = discord.Embed (
                     title = trade_results[1],
@@ -157,7 +157,7 @@ async def search(ctx, query):
             print('womp')
         max_i = i - 1 # max_i is the maximum index value available for trade_results[2][i]
         message = await ctx.send(embed = pages[0])
-        if trade_results[0] > 4:
+        if trade_results[0] > 5:
             await message.add_reaction('⏮')
             await message.add_reaction('◀')
             await message.add_reaction('▶')

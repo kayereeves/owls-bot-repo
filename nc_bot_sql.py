@@ -117,8 +117,8 @@ def return_trades(query):
                         formatted_date = row[2].strftime('%Y-%m-%d')
                     else:
                         formatted_date = '2000-01-01'
-                    # If total_page_results is 4, append that page to the list cleaned_page_results and begin a new page
-                    if total_page_results == 4:
+                    # If total_page_results is 5, append that page to the list cleaned_page_results and begin a new page
+                    if total_page_results == 5:
                         cleaned_page_results.append(page_results)
                         total_page_results = 0
                         page_results = ""
@@ -127,7 +127,7 @@ def return_trades(query):
                         page_results += add_result
                         total_found_results += 1
                         total_page_results += 1
-                    # If total_page_results is less than 4 continue constructing current page
+                    # If total_page_results is less than 5 continue constructing current page
                     else:
                         if formatted_date in page_results:
                             d = ''
@@ -145,7 +145,7 @@ def return_trades(query):
                 embedTitle = str(total_found_results) + " recent trade result for '" + item + "':"
             else:
                 embedTitle = str(total_found_results) + " recent trade results for '" + item + "':"
-            embed_details = [total_found_results, embedTitle, cleaned_page_results]
+        embed_details = [total_found_results, embedTitle, cleaned_page_results]
         return embed_details
     except Exception as e:
         print(e)
