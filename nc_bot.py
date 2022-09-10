@@ -88,7 +88,8 @@ async def report(ctx, sent: str, received: str, notes: str=None, date: str=None)
             failed_message.set_thumbnail(url=random.choice(images))
             failed_message.set_footer(text="Remember to format the date as YYYY-MM-DD and to avoid using single or double quotation characters!")
             await confirmation.edit(embed=failed_message)
-            await confirmation.clear_reactions()
+            if not isinstance(ctx.channel, discord.channel.DMChannel):
+                await confirmation.clear_reactions()
         else:
             #user_stats = return_stats(ctx)
             success_message = discord.Embed (
@@ -99,7 +100,8 @@ async def report(ctx, sent: str, received: str, notes: str=None, date: str=None)
             )                 
             success_message.set_thumbnail(url=random.choice(images))
             await confirmation.edit(embed=success_message)
-            await confirmation.clear_reactions()
+            if not isinstance(ctx.channel, discord.channel.DMChannel):
+                await confirmation.clear_reactions()
     if reaction.emoji == '👎' and reaction.message.id == confirmation_id:
         discard_message = discord.Embed (
         title = 'Trade report discarded successfully!',
@@ -108,7 +110,8 @@ async def report(ctx, sent: str, received: str, notes: str=None, date: str=None)
         )                 
         discard_message.set_thumbnail(url=random.choice(images))
         await confirmation.edit(embed=discard_message)
-        await confirmation.clear_reactions()
+        if not isinstance(ctx.channel, discord.channel.DMChannel):
+            await confirmation.clear_reactions()
 
 # trade history
 # returns the 20 most recent trade data of query
@@ -187,7 +190,8 @@ async def search(ctx, query):
                     i = max_i
                     await message.edit(embed = pages[i])
                 elif str(reaction) == '⏹️' and reaction.message.id == message_id:
-                    await message.clear_reactions()
+                    if not isinstance(ctx.channel, discord.channel.DMChannel):
+                        await message.clear_reactions()
                 
                 try:
                     reaction, user = await bot.wait_for('reaction_add', timeout = 90.0, check = check)
