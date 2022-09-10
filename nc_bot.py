@@ -143,7 +143,7 @@ async def search(ctx, query):
             page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!\nPage 1")
         pages = [page]
         try:
-            while i < 3:
+            while i < 4:
                 i += 1
                 page = discord.Embed (
                     title = trade_results[1],
@@ -191,10 +191,12 @@ async def search(ctx, query):
                 
                 try:
                     reaction, user = await bot.wait_for('reaction_add', timeout = 90.0, check = check)
-                    await message.remove_reaction(reaction, user)
+                    if not isinstance(ctx.channel, discord.channel.DMChannel):
+                        await message.remove_reaction(reaction, user)
                 except:
                     break
-            await message.clear_reactions()
+            if not isinstance(ctx.channel, discord.channel.DMChannel):
+                await message.clear_reactions()
     else:
         womp = discord.Embed (
             description = '```diff\n-         Error Code: 34323948293423490         -\nAbsolutely no results could be found. Nada. Zero.\n-         Error Code: 34323948293423490         -```',
