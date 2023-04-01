@@ -106,7 +106,7 @@ def return_trades(query):
         query_retrieve += """) trns
                             GROUP BY 1,2,3,4,5
                             ORDER BY ds DESC
-                            LIMIT 8;""" 
+                            LIMIT 5;""" 
         
         results = runQuery(query_retrieve, None, is_search=True)
         #print(results)

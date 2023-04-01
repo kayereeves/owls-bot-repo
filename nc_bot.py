@@ -18,32 +18,11 @@ class my_button(interactions.Button):
         self.date = kwargs.pop('date')
 
 # commands from discord message
-@bot.component("thumbsup")
-async def button_response(ctx: interactions.ComponentContext):
-    #send the data to the database
-    result = add_trade(b.user, b.sent, b.received, b.date, b.notes)
- 
-    if not result:
-        failed_message = interactions.Embed (
-        title = 'Trade report failed! :(',
-        description = '```diff\nSomething went wrong, please try again and remember to format the date as YYYY-MM-DD!```',
-        color = 0x654321  
-        )                 
-        failed_message.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
-        await ctx.send(embeds=failed_message, components=[], ephemeral=True)
-    else:
-        success_message = interactions.Embed (
-        title = 'Trade reported successfully! :) You can dismiss these messages.',
-        description = '```xl\nThe Owls thank you! 🦉 Please dismiss these messages.```',
-        color = 0x654321   
-        )                 
-        success_message.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
-        await ctx.send(embeds=success_message, components=[], ephemeral=True)
 
 # trade history
 # returns the 20 most recent trade data of query
 @bot.command(name="search",
-            description="View the 8 most recent reports for a particular item.",
+            description="View the 5 most recent reports for a particular item.",
             options=[
             interactions.Option(
                 name="query",
@@ -78,7 +57,7 @@ async def search(ctx: interactions.CommandContext, query):
         page.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
         page.set_footer(text=footer)
                 
-        message = await ctx.send(embeds = page, ephemeral=True)
+        message = await ctx.send(embeds = page)
 
     else:
         womp = interactions.Embed (
@@ -88,7 +67,7 @@ async def search(ctx: interactions.CommandContext, query):
         )
         womp.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
         womp.set_footer(text=footer)
-        await ctx.send(embeds = womp, ephemeral=True)
+        await ctx.send(embeds = womp)
 
 #help command
 @bot.command(
@@ -112,7 +91,7 @@ async def owl(ctx: interactions.CommandContext):
     )
     owl.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
                     
-    await ctx.send(embeds=owl, ephemeral=True)
+    await ctx.send(embeds=owl)
 
 #credits command            
 @bot.command(
@@ -138,7 +117,7 @@ async def owlcredits(ctx: interactions.CommandContext):
     )
     owlcredits.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
                     
-    await ctx.send(embeds=owlcredits, ephemeral=True)
+    await ctx.send(embeds=owlcredits)
 
 # trade report
 # takes in trading data to create entry
@@ -189,27 +168,24 @@ async def report(ctx: interactions.CommandContext):
 async def modal_response(ctx: interactions.CommandContext, sent: str, received: str, notes:str, date:str):
     #user discord tag
     user = ctx.author.user.username + "#" + ctx.author.user.discriminator
+    #send the data to the database
+    result = add_trade(user, sent, received, date, notes)
  
-    #request confirmation
-    send_message = interactions.Embed (
-    title = 'Is this correct? Press 👍 to finish submitting your report or dismiss this message to discard it. You should only need to press the button once.',
-    description = f"`{date}`\n```diff\n~ s: {sent}\n~ r: {received}\n*** notes: {notes}\n*** reported by: {user}```",
-    color = 0x654321   
-    )               
-    send_message.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
-    send_message.set_footer(text="Make sure you have included values where possible and followed the correct format!")
-
-    global b 
-    b = my_button(
-        style=interactions.ButtonStyle.PRIMARY,
-        label="👍",
-        custom_id="thumbsup",
-        user=user,
-        sent=sent,
-        received=received,
-        notes=notes,
-        date=date)
- 
-    await ctx.send(embeds=send_message, components=[b], ephemeral=True)
+    if not result:
+        failed_message = interactions.Embed (
+        title = 'Trade report failed! :(',
+        description = '```diff\n- Something went wrong, please try again and remember to format the date as YYYY-MM-DD!\n```',
+        color = 0x654321  
+        )                 
+        failed_message.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
+        await ctx.send(embeds=failed_message)
+    else:
+        success_message = interactions.Embed (
+        title = 'Trade reported successfully! :)',
+        description = '```diff\n+ The Owls thank you! 🦉\n```',
+        color = 0x654321   
+        )                 
+        success_message.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
+        await ctx.send(embeds=success_message)
 
 bot.start()
