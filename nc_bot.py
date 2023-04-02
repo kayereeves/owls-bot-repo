@@ -2,8 +2,9 @@ import random
 import interactions
 import secret
 import requests
-from interactions import ActionRow, ComponentContext
+from interactions import ActionRow, ComponentContext, Client
 from nc_bot_sql import *
+import asyncio
 
 tok = secret.tok
 bot = interactions.Client(tok)
@@ -34,6 +35,7 @@ class my_button(interactions.Button):
 )
             
 async def search(ctx: interactions.CommandContext, query):
+    query = query.replace(",", "")
     trade_results = return_trades(query)
     footer = "Submitting trade reports or searching the database is easy! Just type / to use the commands!"
     if trade_results != False and trade_results[0] > 0:
@@ -44,20 +46,72 @@ async def search(ctx: interactions.CommandContext, query):
         else:
             value_data = response.json()
             if value_data['owls_value'] != '':
-                title_str = trade_results[1] + "\t(~OWLS value " + value_data['owls_value'] + ")"
+                title_str = trade_results[1] + "\n(~OWLS value " + value_data['owls_value'] + ")"
             else:
-                title_str = trade_results[1] + "\t(no ~OWLS value)"
+                title_str = trade_results[1] + "\n(no ~OWLS value)"
 
+    if trade_results != False:
         # trade_results[0] is the total results found, trade_results[1] is the embed title, trade_results[2] are the constructed pages
-        page = interactions.Embed (
-            title = title_str,
-            description = trade_results[2][0],
-            color = 0x654321
-        )
+        if trade_results[0] > 0:
+            i = 0
+            page = interactions.Embed (
+                title = title_str,
+                description = trade_results[2][0],
+                color = 0x789900
+            )
         page.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
-        page.set_footer(text=footer)
-                
-        message = await ctx.send(embeds = page)
+        if trade_results[0] < 5:
+            page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!")
+        else:
+            page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!\nPage 1")
+        pages = [page]
+        try:
+            for i in range(1, 4):
+                page = interactions.Embed (
+                    title = title_str,
+                    description = trade_results[2][i],
+                    color = 0x789900   
+                )               
+                page.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
+                page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!\nPage " + str(i + 1))
+                pages.append(page) 
+        except IndexError:
+            print('womp')
+        max_i = 3 # max_i is the maximum index value available for trade_results[2][i]
+        message = await ctx.send(embeds = pages[0])
+        if trade_results[0] > 4:
+            await message.create_reaction('⏮')
+            await message.create_reaction('◀')
+            await message.create_reaction('▶')
+            await message.create_reaction('⏭')
+            await message.create_reaction('⏹️')
+
+            i = 0
+
+            while True:     
+                if ctx.author in await message.get_users_from_reaction('⏮'):
+                    i = 0
+                    await message.edit(embeds = pages[i])
+                    await message.remove_reaction_from(emoji='⏮', user=ctx.author)
+                elif ctx.author in await message.get_users_from_reaction('◀'):
+                    if i > 0:
+                        i -= 1
+                        await message.edit(embeds = pages[i])
+                    await message.remove_reaction_from(emoji='◀', user=ctx.author)
+                elif ctx.author in await message.get_users_from_reaction('▶'):
+                    if i < max_i:
+                        i += 1
+                        await message.edit(embeds = pages[i])
+                    await message.remove_reaction_from(emoji='▶', user=ctx.author)
+                elif ctx.author in await message.get_users_from_reaction('⏭'):
+                    i = max_i
+                    await message.edit(embeds = pages[i])
+                    await message.remove_reaction_from(emoji='⏭', user=ctx.author)
+                elif ctx.author in await message.get_users_from_reaction('⏹️'):
+                    await message.remove_all_reactions()
+                    break
+
+            await message.remove_all_reactions()
 
     else:
         womp = interactions.Embed (

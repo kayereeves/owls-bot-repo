@@ -106,58 +106,63 @@ def return_trades(query):
         query_retrieve += """) trns
                             GROUP BY 1,2,3,4,5
                             ORDER BY ds DESC
-                            LIMIT 5;""" 
+                            LIMIT 20;""" 
         
         results = runQuery(query_retrieve, None, is_search=True)
         #print(results)
-        cleaned_page_results = []
-        total_found_results = 0
-        page_results = "" # page construction
-        total_found_results = 0 # total results found
-        add_result = "" # result to be added to current page
-
+        cleaned_page_results = ""
         for row in results:
-            # Restrict how many total results are wanted, probably not needed because of the above limit but idk what doesn't kill me makes me stronger
-            if item in str(row[0]).lower():
-                s = '! s: ' + row[0].replace('"','') + '\n'
+            page_results = "" # page construction
+            cleaned_page_results = [] # pages separated into a list
+            total_found_results = 0 # total results found
+            total_page_results = 0 # total results for current page
+            add_result = "" # result to be added to current page
+            for row in results:
+                # Restrict how many total results are wanted, probably not needed because of the above limit but idk what doesn't kill me makes me stronger
+                if total_found_results < 20:
+                    if item in str(row[0]).lower():
+                        s = '! s: ' + row[0].replace('"','') + '\n'
+                    else:
+                        s = '~ s: ' + row[0].replace('"','') + '\n'
+                    if item in str(row[1]).lower():
+                        r = '! r: ' + row[1].replace('"','') + '\n'
+                    else:
+                        r = '~ r: ' + row[1].replace('"','') + '\n'
+                    if row[3]:
+                        n = '*** notes: ' + row[3].replace('"','') + '\n'
+                    else:
+                        n = ''
+                    formatted_date = row[2].strftime('%Y-%m-%d')
+                    # If total_page_results is 5, append that page to the list cleaned_page_results and begin a new page
+                    if total_page_results == 5:
+                        cleaned_page_results.append(page_results)
+                        total_page_results = 0
+                        page_results = ""
+                        d = '`' + formatted_date + '`\n'
+                        add_result = d + '```diff\n' + s + r + n + '\n```\n' # '*** reported by: ' + row[4].replace('"','') + '\n```\n'
+                        page_results += add_result
+                        total_found_results += 1
+                        total_page_results += 1
+                    # If total_page_results is less than 4 continue constructing current page
+                    else:
+                        if formatted_date in page_results:
+                            d = ''
+                        else:
+                            d = '`' + formatted_date + '`\n'
+                        add_result = d + '```diff\n' + s + r + n + '\n```\n' # '*** reported by: ' + row[4].replace('"','') + '\n```\n'
+                        page_results += add_result
+                        total_found_results += 1
+                        total_page_results += 1
+                else:
+                    break
+            # Append a final/only page that is not full
+            cleaned_page_results.append(page_results)
+            if total_found_results == 1:
+                embedTitle = str(total_found_results) + " recent trade result for '" + item + "':"
             else:
-                s = '~ s: ' + row[0].replace('"','') + '\n'
-            if item in str(row[1]).lower():
-                r = '! r: ' + row[1].replace('"','') + '\n'
-            else:
-                r = '~ r: ' + row[1].replace('"','') + '\n'
-            if row[3]:
-                n = '*** notes: ' + row[3].replace('"','') + '\n'
-            else:
-                n = ''
-                        
-            if row[2]:
-                formatted_date = row[2].strftime('%Y-%m-%d')
-            else:
-                formatted_date = 'unknown date'
-                
-            if formatted_date in page_results:
-                d = ''
-            else:
-                d = '`' + formatted_date + '`\n'
-            
-            add_result = d + '```diff\n' + s + r + n + '\n```\n'
-            page_results += add_result
-            total_found_results += 1
-
-        # Append a final/only page that is not full
-        cleaned_page_results.append(page_results)
-            
-        if total_found_results == 1:
-            embed_title = "Found " + str(total_found_results) + " trade result for '" + item + "':"
-        elif total_found_results == 0:
-            embed_title = "No results found :("
-        else:
-            embed_title = "Found " + str(total_found_results) + " trade results for '" + item + "':"
-
-        embed_details = [total_found_results, embed_title, cleaned_page_results]
+                embedTitle = str(total_found_results) + " recent trade results for '" + item + "':"
+            embed_details = [total_found_results, embedTitle, cleaned_page_results]
         return embed_details
-    
     except Exception as e:
         print(e)
         return False
