@@ -115,7 +115,7 @@ async def search(ctx: interactions.CommandContext, query):
 
     else:
         womp = interactions.Embed (
-            title=trade_results[1],
+            title="No results found :(",
             description = '```diff\nSorry, we don\'t have any trade reports for \'' + query + '\' just yet. Please make sure you\'re searching for the full, correct item name!```',
             color = 0x654321
         )

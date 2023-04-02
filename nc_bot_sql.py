@@ -111,6 +111,7 @@ def return_trades(query):
         results = runQuery(query_retrieve, None, is_search=True)
         #print(results)
         cleaned_page_results = ""
+        embed_details = False
         for row in results:
             page_results = "" # page construction
             cleaned_page_results = [] # pages separated into a list
