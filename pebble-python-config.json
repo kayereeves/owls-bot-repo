@@ -1,4 +1,5 @@
 {
     "main": "nc_bot.py",
-    "requirementsFile": "requirements.txt"
+    "requirementsFile": "requirements.txt",
+    "pythonVersion": "3.10"
 }
