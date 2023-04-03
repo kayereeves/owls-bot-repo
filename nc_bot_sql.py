@@ -133,7 +133,10 @@ def return_trades(query):
                         n = '*** notes: ' + row[3].replace('"','') + '\n'
                     else:
                         n = ''
-                    formatted_date = row[2].strftime('%Y-%m-%d')
+                    if row[2]:
+                        formatted_date = row[2].strftime('%Y-%m-%d')
+                    else:
+                        formatted_date = "unknown date"
                     # If total_page_results is 5, append that page to the list cleaned_page_results and begin a new page
                     if total_page_results == 5:
                         cleaned_page_results.append(page_results)

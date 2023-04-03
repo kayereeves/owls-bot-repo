@@ -2,9 +2,10 @@ import random
 import interactions
 import secret
 import requests
-from interactions import ActionRow, ComponentContext, Client
+from interactions import ActionRow, ComponentContext, CommandContext, Client
 from nc_bot_sql import *
 import asyncio
+from timed_count import timed_count
 
 tok = secret.tok
 bot = interactions.Client(tok)
@@ -57,7 +58,7 @@ async def search(ctx: interactions.CommandContext, query):
             page = interactions.Embed (
                 title = title_str,
                 description = trade_results[2][0],
-                color = 0x789900
+                color = 0x654321
             )
         page.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
         if trade_results[0] < 5:
@@ -70,7 +71,7 @@ async def search(ctx: interactions.CommandContext, query):
                 page = interactions.Embed (
                     title = title_str,
                     description = trade_results[2][i],
-                    color = 0x789900   
+                    color = 0x654321   
                 )               
                 page.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
                 page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!\nPage " + str(i + 1))
@@ -80,35 +81,36 @@ async def search(ctx: interactions.CommandContext, query):
         max_i = 3 # max_i is the maximum index value available for trade_results[2][i]
         message = await ctx.send(embeds = pages[0])
         if trade_results[0] > 4:
-            await message.create_reaction('⏮')
+            
             await message.create_reaction('◀')
             await message.create_reaction('▶')
-            await message.create_reaction('⏭')
             await message.create_reaction('⏹️')
 
             i = 0
+            j = 0
 
-            while True:     
-                if ctx.author in await message.get_users_from_reaction('⏮'):
-                    i = 0
-                    await message.edit(embeds = pages[i])
-                    await message.remove_reaction_from(emoji='⏮', user=ctx.author)
-                elif ctx.author in await message.get_users_from_reaction('◀'):
+            for count in timed_count(1.5, start=1):     
+                j += 1.5
+
+                if ctx.author in await message.get_users_from_reaction('◀'):
                     if i > 0:
                         i -= 1
                         await message.edit(embeds = pages[i])
+                    j = 0
                     await message.remove_reaction_from(emoji='◀', user=ctx.author)
                 elif ctx.author in await message.get_users_from_reaction('▶'):
                     if i < max_i:
                         i += 1
                         await message.edit(embeds = pages[i])
+                    j = 0
                     await message.remove_reaction_from(emoji='▶', user=ctx.author)
-                elif ctx.author in await message.get_users_from_reaction('⏭'):
-                    i = max_i
-                    await message.edit(embeds = pages[i])
-                    await message.remove_reaction_from(emoji='⏭', user=ctx.author)
                 elif ctx.author in await message.get_users_from_reaction('⏹️'):
                     await message.remove_all_reactions()
+                    break
+
+                #exit if a minute goes by with no response
+                if j > 40:
+                    print("byebye!")
                     break
 
             await message.remove_all_reactions()
