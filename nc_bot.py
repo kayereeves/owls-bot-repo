@@ -24,7 +24,7 @@ class my_button(interactions.Button):
 # trade history
 # returns the 20 most recent trade data of query
 @bot.command(name="search",
-            description="View the 5 most recent reports for a particular item.",
+            description="View up to 20 recent reports for a particular item.",
             options=[
             interactions.Option(
                 name="query",
@@ -108,8 +108,8 @@ async def search(ctx: interactions.CommandContext, query):
                     await message.remove_all_reactions()
                     break
 
-                #exit if a minute goes by with no response
-                if j > 40:
+                #exit if half a minute goes by with no response
+                if j > 20:
                     print("byebye!")
                     break
 
@@ -244,4 +244,6 @@ async def modal_response(ctx: interactions.CommandContext, sent: str, received: 
         success_message.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
         await ctx.send(embeds=success_message)
 
+print("OwlBot starting up!")
 bot.start()
+print("OwlBot shutting down!")
