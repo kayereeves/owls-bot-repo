@@ -38,12 +38,7 @@ class my_button(interactions.Button):
 async def search(ctx: interactions.CommandContext, query):
     #exit if dm
     if not ctx.guild_id:
-        womp = interactions.Embed (
-            description = 'Please join https://discord.gg/e9DQfA4E77 to use OwlBot commands! :)',
-            color = 0x654321
-        )
-        womp.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
-        await ctx.send(embeds = womp)
+        await ctx.send('Please join https://discord.gg/Syspv2JuYF to use OwlBot commands! :)')
         return
     
     query = query.replace(",", "")
@@ -145,12 +140,7 @@ async def search(ctx: interactions.CommandContext, query):
 async def owl(ctx: interactions.CommandContext):
     #exit if dm
     if not ctx.guild_id:
-        womp = interactions.Embed (
-            description = 'Please join https://discord.gg/e9DQfA4E77 to use OwlBot commands! :)',
-            color = 0x654321
-        )
-        womp.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
-        await ctx.send(embeds = womp)
+        await ctx.send('Please join https://discord.gg/Syspv2JuYF to use OwlBot commands! :)')
         return
     
     owl = interactions.Embed (
@@ -179,12 +169,7 @@ async def owl(ctx: interactions.CommandContext):
 async def owlcredits(ctx: interactions.CommandContext):
     #exit if dm
     if not ctx.guild_id:
-        womp = interactions.Embed (
-            description = 'Please join https://discord.gg/e9DQfA4E77 to use OwlBot commands! :)',
-            color = 0x654321
-        )
-        womp.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
-        await ctx.send(embeds = womp)
+        await ctx.send('Please join https://discord.gg/Syspv2JuYF to use OwlBot commands! :)')
         return
     
     owlcredits = interactions.Embed (
@@ -216,12 +201,7 @@ async def owlcredits(ctx: interactions.CommandContext):
 async def report(ctx: interactions.CommandContext):
     #exit if dm
     if not ctx.guild_id:
-        womp = interactions.Embed (
-            description = 'Please join https://discord.gg/e9DQfA4E77 to use OwlBot commands! :)',
-            color = 0x654321
-        )
-        womp.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
-        await ctx.send(embeds = womp)
+        await ctx.send('Please join https://discord.gg/Syspv2JuYF to use OwlBot commands! :)')
         return
     
     modal = interactions.Modal(
