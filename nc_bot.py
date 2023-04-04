@@ -40,7 +40,8 @@ async def search(ctx: interactions.CommandContext, query):
     trade_results = return_trades(query)
     footer = "Submitting trade reports or searching the database is easy! Just type / to use the commands!"
     if trade_results != False and trade_results[0] > 0:
-        response = requests.get('https://neo-owls.net/itemdata/' + query)
+        response = requests.get('https://neo-owls.net/itemdata/' + query,
+                            headers={'Cache-Control': 'no-cache'})
 
         if response.status_code == 404:
             title_str = trade_results[1]
