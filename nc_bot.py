@@ -67,7 +67,7 @@ async def search(ctx: interactions.CommandContext, query):
             page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!\nPage 1")
         pages = [page]
         try:
-            for i in range(1, 4):
+            for i in range(1, len(trade_results[2])):
                 page = interactions.Embed (
                     title = title_str,
                     description = trade_results[2][i],
@@ -99,7 +99,7 @@ async def search(ctx: interactions.CommandContext, query):
                     j = 0
                     await message.remove_reaction_from(emoji='◀', user=ctx.author)
                 elif ctx.author in await message.get_users_from_reaction('▶'):
-                    if i < max_i:
+                    if i < len(pages)-1:
                         i += 1
                         await message.edit(embeds = pages[i])
                     j = 0
