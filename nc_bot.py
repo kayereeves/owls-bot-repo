@@ -36,6 +36,16 @@ class my_button(interactions.Button):
 )
             
 async def search(ctx: interactions.CommandContext, query):
+    #exit if dm
+    if not ctx.guild_id:
+        womp = interactions.Embed (
+            description = 'Please join https://discord.gg/e9DQfA4E77 to use OwlBot commands! :)',
+            color = 0x654321
+        )
+        womp.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
+        await ctx.send(embeds = womp)
+        return
+    
     query = query.replace(",", "")
     trade_results = return_trades(query)
     footer = "Submitting trade reports or searching the database is easy! Just type / to use the commands!"
@@ -133,6 +143,16 @@ async def search(ctx: interactions.CommandContext, query):
 )
 
 async def owl(ctx: interactions.CommandContext):
+    #exit if dm
+    if not ctx.guild_id:
+        womp = interactions.Embed (
+            description = 'Please join https://discord.gg/e9DQfA4E77 to use OwlBot commands! :)',
+            color = 0x654321
+        )
+        womp.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
+        await ctx.send(embeds = womp)
+        return
+    
     owl = interactions.Embed (
         title = 'OwlBot Reloaded Help',
         description = 
@@ -157,6 +177,16 @@ async def owl(ctx: interactions.CommandContext):
 )            
 
 async def owlcredits(ctx: interactions.CommandContext):
+    #exit if dm
+    if not ctx.guild_id:
+        womp = interactions.Embed (
+            description = 'Please join https://discord.gg/e9DQfA4E77 to use OwlBot commands! :)',
+            color = 0x654321
+        )
+        womp.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
+        await ctx.send(embeds = womp)
+        return
+    
     owlcredits = interactions.Embed (
         title = 'OwlBot Credits!',
         description = 
@@ -184,6 +214,16 @@ async def owlcredits(ctx: interactions.CommandContext):
 )
 
 async def report(ctx: interactions.CommandContext):
+    #exit if dm
+    if not ctx.guild_id:
+        womp = interactions.Embed (
+            description = 'Please join https://discord.gg/e9DQfA4E77 to use OwlBot commands! :)',
+            color = 0x654321
+        )
+        womp.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
+        await ctx.send(embeds = womp)
+        return
+    
     modal = interactions.Modal(
         title = "Report a Neocash trade to OWLS",
         custom_id = "report",
