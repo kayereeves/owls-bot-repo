@@ -1,4 +1,3 @@
-credentials.json
-token.json
 secret.py
-.env
+*.pyc
+*.pyo
