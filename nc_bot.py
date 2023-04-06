@@ -36,11 +36,6 @@ class my_button(interactions.Button):
 )
             
 async def search(ctx: interactions.CommandContext, query):
-    #exit if dm
-    if not ctx.guild_id:
-        await ctx.send('Please join https://discord.gg/Syspv2JuYF to use OwlBot commands! :)')
-        return
-    
     query = query.replace(",", "")
     trade_results = return_trades(query)
     footer = "Submitting trade reports or searching the database is easy! Just type / to use the commands!"
@@ -69,6 +64,8 @@ async def search(ctx: interactions.CommandContext, query):
         page.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
         if trade_results[0] < 5:
             page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!")
+        elif not ctx.guild_id:
+            page.set_footer(text="Only the first 5 results can be displayed via DM. Use OwlBot in a Discord server to see more!")
         else:
             page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!\nPage 1")
         pages = [page]
@@ -84,10 +81,9 @@ async def search(ctx: interactions.CommandContext, query):
                 pages.append(page) 
         except IndexError:
             print('womp')
-        max_i = 3 # max_i is the maximum index value available for trade_results[2][i]
+
         message = await ctx.send(embeds = pages[0])
-        if trade_results[0] > 4:
-            
+        if trade_results[0] > 4 and ctx.guild_id:
             await message.create_reaction('◀')
             await message.create_reaction('▶')
             await message.create_reaction('⏹️')
@@ -138,11 +134,6 @@ async def search(ctx: interactions.CommandContext, query):
 )
 
 async def owl(ctx: interactions.CommandContext):
-    #exit if dm
-    if not ctx.guild_id:
-        await ctx.send('Please join https://discord.gg/Syspv2JuYF to use OwlBot commands! :)')
-        return
-    
     owl = interactions.Embed (
         title = 'OwlBot Reloaded Help',
         description = 
@@ -167,11 +158,6 @@ async def owl(ctx: interactions.CommandContext):
 )            
 
 async def owlcredits(ctx: interactions.CommandContext):
-    #exit if dm
-    if not ctx.guild_id:
-        await ctx.send('Please join https://discord.gg/Syspv2JuYF to use OwlBot commands! :)')
-        return
-    
     owlcredits = interactions.Embed (
         title = 'OwlBot Credits!',
         description = 
@@ -199,11 +185,6 @@ async def owlcredits(ctx: interactions.CommandContext):
 )
 
 async def report(ctx: interactions.CommandContext):
-    #exit if dm
-    if not ctx.guild_id:
-        await ctx.send('Please join https://discord.gg/Syspv2JuYF to use OwlBot commands! :)')
-        return
-    
     modal = interactions.Modal(
         title = "Report a Neocash trade to OWLS",
         custom_id = "report",
@@ -244,7 +225,11 @@ async def report(ctx: interactions.CommandContext):
 @bot.modal("report")
 async def modal_response(ctx: interactions.CommandContext, sent: str, received: str, notes:str, date:str):
     #user discord tag
-    user = ctx.author.user.username + "#" + ctx.author.user.discriminator
+    if ctx.guild_id:
+        user = ctx.author.user.username + "#" + ctx.author.user.discriminator
+    else:
+        user = ctx.user.username + "#" + ctx.user.discriminator
+
     #send the data to the database
     result = add_trade(user, sent, received, date, notes)
  
