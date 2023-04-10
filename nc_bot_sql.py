@@ -71,7 +71,7 @@ def return_trades(query):
     #really don't like this but trying to execute it as a prepared statement
     #was making my head explode and there's no good reason these should be in an
     #item search anyway
-    bad_chars = ['&','<','>','/','\\','"',"'",'?','+', ';', ')', '(']
+    bad_chars = ['<','>','/','\\','"',"'",'?',';']
 
     for c in bad_chars:
         query = query.replace(c, '')
