@@ -83,7 +83,7 @@ async def search(ctx: interactions.CommandContext, query):
             print('womp')
 
         message = await ctx.send(embeds = pages[0])
-        if trade_results[0] > 4 and ctx.guild_id:
+        if trade_results[0] > 5 and ctx.guild_id:
             await message.create_reaction('◀')
             await message.create_reaction('▶')
             await message.create_reaction('⏹️')
