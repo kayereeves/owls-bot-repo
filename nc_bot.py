@@ -61,7 +61,7 @@ async def search(ctx: interactions.CommandContext, query):
                 description = trade_results[2][0],
                 color = 0x654321
             )
-        page.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
+        page.set_thumbnail(url='https://neo-owls.net/images/bot_thumb_pride')
         if trade_results[0] < 5:
             page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!")
         elif not ctx.guild_id:
@@ -76,7 +76,7 @@ async def search(ctx: interactions.CommandContext, query):
                     description = trade_results[2][i],
                     color = 0x654321   
                 )               
-                page.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
+                page.set_thumbnail(url='https://neo-owls.net/images/bot_thumb_pride')
                 page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!\nPage " + str(i + 1))
                 pages.append(page) 
         except IndexError:
@@ -123,7 +123,7 @@ async def search(ctx: interactions.CommandContext, query):
             description = '```diff\nSorry, we don\'t have any trade reports for \'' + query + '\' just yet. Please make sure you\'re searching for the full, correct item name!```',
             color = 0x654321
         )
-        womp.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
+        womp.set_thumbnail(url='https://neo-owls.net/images/bot_thumb_pride')
         womp.set_footer(text=footer)
         await ctx.send(embeds = womp)
 
@@ -147,7 +147,7 @@ async def owl(ctx: interactions.CommandContext):
         ```\nView credits for OwlBot Reloaded.```""",
         color = 0x654321
     )
-    owl.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
+    owl.set_thumbnail(url='https://neo-owls.net/images/bot_thumb_pride')
                     
     await ctx.send(embeds=owl)
 
@@ -173,7 +173,7 @@ async def owlcredits(ctx: interactions.CommandContext):
         ```\nthanks for submitting your trades to us, we couldn't do it without you ❤️```""",
         color = 0x654321
     )
-    owlcredits.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
+    owlcredits.set_thumbnail(url='https://neo-owls.net/images/bot_thumb_pride')
                     
     await ctx.send(embeds=owlcredits)
 
@@ -239,7 +239,7 @@ async def modal_response(ctx: interactions.CommandContext, sent: str, received: 
         description = '```diff\n- Something went wrong, please try again and remember to format the date as YYYY-MM-DD!\n```',
         color = 0x654321  
         )                 
-        failed_message.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
+        failed_message.set_thumbnail(url='https://neo-owls.net/images/bot_thumb_pride')
         await ctx.send(embeds=failed_message)
     else:
         success_message = interactions.Embed (
@@ -247,7 +247,7 @@ async def modal_response(ctx: interactions.CommandContext, sent: str, received: 
         description = '```diff\n+ The Owls thank you! 🦉\n```',
         color = 0x654321   
         )                 
-        success_message.set_thumbnail(url='https://neo-owls.net/images/bot_thumb')
+        success_message.set_thumbnail(url='https://neo-owls.net/images/bot_thumb_pride')
         await ctx.send(embeds=success_message)
 
 print("OwlBot starting up!")
