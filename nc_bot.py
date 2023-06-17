@@ -2,13 +2,14 @@ import random
 import interactions
 import secret
 import requests
-from interactions import ActionRow, ComponentContext, CommandContext, Client
+from interactions import ActionRow, ComponentContext, CommandContext, Client, ClientPresence, Presence, PresenceActivityType, PresenceActivity, StatusType
 from nc_bot_sql import *
 import asyncio
+import pytz
 from timed_count import timed_count
 
 tok = secret.tok
-bot = interactions.Client(tok)
+bot = interactions.Client(token=tok, presence=ClientPresence(status=StatusType.ONLINE, activities=[PresenceActivity(name="ko-fi.com/owlsnc ❤️", type=PresenceActivityType.GAME)]))
 
 class my_button(interactions.Button):
     def __init__(self, *args, **kwargs):
@@ -170,7 +171,8 @@ async def owlcredits(ctx: interactions.CommandContext):
         **🦉 The ~Owls team**
         ```\nworking tirelessly to collect, record, and count trade data```
         **🦉 YOU**
-        ```\nthanks for submitting your trades to us, we couldn't do it without you ❤️```""",
+        ```\nthanks for submitting your trades to us, we couldn't do it without you ❤️```
+        \nIf you would like to help support us monetarily, please check out our Ko-Fi page at https://ko-fi.com/owlsnc 🤗""",
         color = 0x654321
     )
     owlcredits.set_thumbnail(url='https://neo-owls.net/images/bot_thumb_pride.png')
@@ -214,7 +216,7 @@ async def report(ctx: interactions.CommandContext):
             style=interactions.TextStyleType.SHORT,
             label="Date (YYYY-MM-DD format only please)",
             custom_id="date",
-            value=datetime.now().strftime('%Y-%m-%d'),
+            value=datetime.now(pytz.timezone('US/Pacific')).strftime('%Y-%m-%d'),
             min_length=10,
             max_length=10,
             )
@@ -252,4 +254,7 @@ async def modal_response(ctx: interactions.CommandContext, sent: str, received: 
 
 print("OwlBot starting up!")
 bot.start()
+#bot.change_presence(presence=ClientPresence(status=StatusType.DND))
+#bot.change_presence(presence=ClientPresence(status=["ko-fi.com/owlsnc ❤️", StatusType.ONLINE], afk=False))
+
 print("OwlBot shutting down!")

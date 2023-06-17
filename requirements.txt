@@ -6,3 +6,4 @@ datetime
 mysql_connector_python
 pandas
 SQLAlchemy
+pytz
