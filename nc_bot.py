@@ -2,14 +2,14 @@ import random
 import interactions
 import secret
 import requests
-from interactions import ActionRow, ComponentContext, CommandContext, Client, ClientPresence, Presence, PresenceActivityType, PresenceActivity, StatusType
+from interactions import ActionRow, Status, ComponentContext, SlashContext, SlashCommandOption, OptionType, Client, Activity, ModalContext, ShortText, ParagraphText
 from nc_bot_sql import *
 import asyncio
 import pytz
 from timed_count import timed_count
 
 tok = secret.tok
-bot = interactions.Client(token=tok, presence=ClientPresence(status=StatusType.ONLINE, activities=[PresenceActivity(name="ko-fi.com/owlsnc ❤️", type=PresenceActivityType.GAME)]))
+bot = interactions.Client(token=tok, status=Status.ONLINE, activity=Activity(name="ko-fi.com/owlsnc ❤️"))
 
 class my_button(interactions.Button):
     def __init__(self, *args, **kwargs):
@@ -24,19 +24,19 @@ class my_button(interactions.Button):
 
 # trade history
 # returns the 20 most recent trade data of query
-@bot.command(name="search",
+@interactions.slash_command(name="search",
             description="View up to 20 recent reports for a particular item.",
             options=[
-            interactions.Option(
+            SlashCommandOption(
                 name="query",
                 description="The item you wish to view reports for.",
-                type=interactions.OptionType.STRING,
+                type=OptionType.STRING,
                 required=True
             )
             ],
 )
             
-async def search(ctx: interactions.CommandContext, query):
+async def search(ctx: interactions.SlashContext, query):
     query = query.replace(",", "")
     trade_results = return_trades(query)
     footer = "Submitting trade reports or searching the database is easy! Just type / to use the commands!"
@@ -84,10 +84,11 @@ async def search(ctx: interactions.CommandContext, query):
             print('womp')
 
         message = await ctx.send(embeds = pages[0])
+
         if trade_results[0] > 5 and ctx.guild_id:
-            await message.create_reaction('◀')
-            await message.create_reaction('▶')
-            await message.create_reaction('⏹️')
+            await message.add_reaction('◀')
+            await message.add_reaction('▶')
+            await message.add_reaction('⏹️')
 
             i = 0
             j = 0
@@ -95,20 +96,20 @@ async def search(ctx: interactions.CommandContext, query):
             for count in timed_count(1.5, start=1):     
                 j += 1.5
 
-                if ctx.author in await message.get_users_from_reaction('◀'):
+                if ctx.author in await message.fetch_reaction('◀'):
                     if i > 0:
                         i -= 1
                         await message.edit(embeds = pages[i])
                     j = 0
-                    await message.remove_reaction_from(emoji='◀', user=ctx.author)
-                elif ctx.author in await message.get_users_from_reaction('▶'):
+                    await message.remove_reaction(emoji='◀', user=ctx.author)
+                elif ctx.author in await message.fetch_reaction('▶'):
                     if i < len(pages)-1:
                         i += 1
                         await message.edit(embeds = pages[i])
                     j = 0
-                    await message.remove_reaction_from(emoji='▶', user=ctx.author)
-                elif ctx.author in await message.get_users_from_reaction('⏹️'):
-                    await message.remove_all_reactions()
+                    await message.remove_reaction(emoji='▶', user=ctx.author)
+                elif ctx.author in await message.fetch_reaction('⏹️'):
+                    await message.clear_all_reactions()
                     break
 
                 #exit if half a minute goes by with no response
@@ -116,7 +117,7 @@ async def search(ctx: interactions.CommandContext, query):
                     print("byebye!")
                     break
 
-            await message.remove_all_reactions()
+            await message.clear_all_reactions()
 
     else:
         womp = interactions.Embed (
@@ -129,12 +130,12 @@ async def search(ctx: interactions.CommandContext, query):
         await ctx.send(embeds = womp)
 
 #help command
-@bot.command(
+@interactions.slash_command(
     name="owl",
     description = "View a list of commands."
 )
 
-async def owl(ctx: interactions.CommandContext):
+async def owl(ctx: interactions.SlashContext):
     owl = interactions.Embed (
         title = 'OwlBot Reloaded Help',
         description = 
@@ -153,12 +154,12 @@ async def owl(ctx: interactions.CommandContext):
     await ctx.send(embeds=owl)
 
 #credits command            
-@bot.command(
+@interactions.slash_command(
     name="credits",
     description="View credits for OwlBot Reloaded."
 )            
 
-async def owlcredits(ctx: interactions.CommandContext):
+async def owlcredits(ctx: interactions.SlashContext):
     owlcredits = interactions.Embed (
         title = 'OwlBot Credits!',
         description = 
@@ -181,51 +182,47 @@ async def owlcredits(ctx: interactions.CommandContext):
 
 # trade report
 # takes in trading data to create entry
-@bot.command(
+@interactions.slash_command(
     name="report",
     description="Submit a trade report to OWLS. Press Enter or send the command to bring up a form."
 )
 
-async def report(ctx: interactions.CommandContext):
-    modal = interactions.Modal(
-        title = "Report a Neocash trade to OWLS",
-        custom_id = "report",
-        components = [
-            interactions.TextInput(
-            style=interactions.TextStyleType.PARAGRAPH,
+async def report(ctx: interactions.SlashContext):
+    report_modal = interactions.Modal(
+        ParagraphText(
             label="Sent (Full item names & personal values!)",
             custom_id="sent",
             placeholder="Plz follow format or report may not appear in searches! Ex.: Item (1-2) + Another Item (10) + 2 GBCs",
             min_length=1
-            ),
-            interactions.TextInput(
-            style=interactions.TextStyleType.PARAGRAPH,
+        ),
+        ParagraphText(
             label="Received (Full item names & personal values!)",
             custom_id="received",
             placeholder="Plz follow format or report may not appear in searches! Ex.: Item (1-2) + Another Item (10) + 2 GBCs",
             min_length=1
-            ),
-            interactions.TextInput(
-            style=interactions.TextStyleType.PARAGRAPH,
+        ),
+        ParagraphText(
             label="Notes",
             custom_id="notes",
             value="Fair",
             min_length=0
-            ),
-            interactions.TextInput(
-            style=interactions.TextStyleType.SHORT,
+        ),
+        ShortText(
             label="Date (YYYY-MM-DD format only please)",
             custom_id="date",
             value=datetime.now(pytz.timezone('US/Pacific')).strftime('%Y-%m-%d'),
             min_length=10,
             max_length=10,
-            )
-        ],
+        ),
+        title = "Report a Neocash trade to OWLS",
+        custom_id = "report"
     )
-    await ctx.popup(modal)
 
-@bot.modal("report")
-async def modal_response(ctx: interactions.CommandContext, sent: str, received: str, notes:str, date:str):
+    await ctx.send_modal(modal=report_modal)
+    modal_ctx: ModalContext = await ctx.bot.wait_for_modal(report_modal)
+    modal_response(ctx, modal_ctx.responses['sent'], modal_ctx.responses['received'], modal_ctx.responses['notes'], modal_ctx.responses['date'])
+
+async def modal_response(ctx: interactions.SlashContext, sent: str, received: str, notes:str, date:str):
     #user discord tag
     if ctx.guild_id:
         user = ctx.author.user.username + "#" + ctx.author.user.discriminator
@@ -254,7 +251,4 @@ async def modal_response(ctx: interactions.CommandContext, sent: str, received: 
 
 print("OwlBot starting up!")
 bot.start()
-#bot.change_presence(presence=ClientPresence(status=StatusType.DND))
-#bot.change_presence(presence=ClientPresence(status=["ko-fi.com/owlsnc ❤️", StatusType.ONLINE], afk=False))
-
 print("OwlBot shutting down!")
