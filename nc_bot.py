@@ -218,11 +218,65 @@ async def report(ctx: interactions.SlashContext):
         custom_id = "report"
     )
 
+    user_modal = interactions.Modal(
+        ParagraphText(
+            label="Neopets Username",
+            custom_id="neo_user",
+            placeholder="You will only be asked for this once and it will only be visible to Owls staff members.",
+            min_length=1,
+            max_length=20
+        ),
+        title = "Howdy stranger! 🤠",
+        custom_id = "username_entry"
+    )
+
+    #check if a user has registered their Neopets username with Owls already. if not, they will need to provide one before
+    #they can submit a report.
+    if not userCheck(ctx.user.id.__str__()):
+        await ctx.send_modal(modal=user_modal)
+        user_modal_ctx: ModalContext = await ctx.bot.wait_for_modal(user_modal)
+        add_success = add_user(ctx.user.id.__str__(), user_modal_ctx.responses['neo_user'])
+
+        if add_success:
+            register_message = interactions.Embed (
+            title = 'Thank you for registering your Neo username!',
+            description = '```diff\n+ If you want to change or remove this later just contact an Owls team member! Use the /report command again to submit your trade report.\n```',
+            color = 0x654321  
+            )
+            await user_modal_ctx.send(embeds=register_message)
+        else:
+            register_failed = interactions.Embed (
+            title = 'Something went wrong :(',
+            description = '```diff\n- Please try again!\n```',
+            color = 0x654321  
+            )
+            await user_modal_ctx.send(embeds=register_failed)
+
+        return
+
     await ctx.send_modal(modal=report_modal)
     modal_ctx: ModalContext = await ctx.bot.wait_for_modal(report_modal)
-    modal_response(ctx, modal_ctx.responses['sent'], modal_ctx.responses['received'], modal_ctx.responses['notes'], modal_ctx.responses['date'])
+    #await modal_response(ctx, modal_ctx.responses['sent'], modal_ctx.responses['received'], modal_ctx.responses['notes'], modal_ctx.responses['date'])
+    success = modal_respond(ctx, modal_ctx.responses['sent'], modal_ctx.responses['received'], modal_ctx.responses['notes'], modal_ctx.responses['date'])
+    
+    if not success:
+        failed_message = interactions.Embed (
+        title = 'Trade report failed! :(',
+        description = '```diff\n- Something went wrong, please try again and remember to format the date as YYYY-MM-DD!\n```',
+        color = 0x654321  
+        )                 
+        failed_message.set_thumbnail(url='https://neo-owls.net/images/bot_thumb_pride.png')
+        await modal_ctx.send(embeds=failed_message)
+    else:
+        success_message = interactions.Embed (
+        title = 'Trade reported successfully! :)',
+        description = '```diff\n+ The Owls thank you! 🦉\n```',
+        color = 0x654321   
+        )                 
+        success_message.set_thumbnail(url='https://neo-owls.net/images/bot_thumb_pride.png')
+        await modal_ctx.send(embeds=success_message)
 
-async def modal_response(ctx: interactions.SlashContext, sent: str, received: str, notes:str, date:str):
+def modal_respond(ctx: interactions.SlashContext, sent: str, received: str, notes:str, date:str):
     #user discord tag
     if ctx.guild_id:
         user = ctx.author.user.username + "#" + ctx.author.user.discriminator
@@ -233,21 +287,13 @@ async def modal_response(ctx: interactions.SlashContext, sent: str, received: st
     result = add_trade(user, sent, received, date, notes)
  
     if not result:
-        failed_message = interactions.Embed (
-        title = 'Trade report failed! :(',
-        description = '```diff\n- Something went wrong, please try again and remember to format the date as YYYY-MM-DD!\n```',
-        color = 0x654321  
-        )                 
-        failed_message.set_thumbnail(url='https://neo-owls.net/images/bot_thumb_pride.png')
-        await ctx.send(embeds=failed_message)
+        return False
     else:
-        success_message = interactions.Embed (
-        title = 'Trade reported successfully! :)',
-        description = '```diff\n+ The Owls thank you! 🦉\n```',
-        color = 0x654321   
-        )                 
-        success_message.set_thumbnail(url='https://neo-owls.net/images/bot_thumb_pride.png')
-        await ctx.send(embeds=success_message)
+        return True
+    
+def neo_username_valid(user: str):
+    #todo: write regex?
+    pass
 
 print("OwlBot starting up!")
 bot.start()

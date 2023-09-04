@@ -6,7 +6,15 @@ import pandas as pd
 import csv
 from sqlalchemy import create_engine, types, text
 
-def runQuery(query, data, is_search=False, return_result=True):
+#check if a user is in the database already
+def userCheck(user_id):
+    query = "SELECT * FROM registered_users WHERE discord_id LIKE " + "'" + user_id + "';"
+    if runQuery(query, is_search=True):
+        return True
+    else:
+        return False
+
+def runQuery(query, data=None, is_search=False, return_result=True):
     conn = mysql.connector.connect(
         host=secret.host,
         user=secret.user,
@@ -38,6 +46,16 @@ def runQuery(query, data, is_search=False, return_result=True):
             conn.commit()
             conn.close()
     return None
+
+def add_user(discord_id: str, neo_username: str):
+    query = """INSERT INTO registered_users(discord_id, neo_user) VALUES (%s, %s)"""
+    args = (discord_id, neo_username)
+    try:
+        runQuery(query, args)
+        return True
+    except Exception as e:
+        print(e)
+        return False
 
 def add_trade(user_id: str, sent: str, received: str, ds=None, notes: str=""):
     query_update = """INSERT INTO transactions(loaded_at, transaction_id, user_id, traded, traded_for, ds, notes) VALUES (%s, %s, %s, %s, %s, %s, %s)"""
