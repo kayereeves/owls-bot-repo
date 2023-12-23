@@ -47,9 +47,9 @@ async def search(ctx: interactions.SlashContext, query):
         else:
             value_data = response.json()
             if value_data['owls_value'] != '':
-                title_str = trade_results[1] + "\n(~OWLS value " + value_data['owls_value'] + ")"
+                title_str = trade_results[1] + "\n(OWLS value: " + value_data['owls_value'] + ")"
             else:
-                title_str = trade_results[1] + "\n(no ~OWLS value)"
+                title_str = trade_results[1] + "\n(no OWLS Value)"
 
     if trade_results != False:
         # trade_results[0] is the total results found, trade_results[1] is the embed title, trade_results[2] are the constructed pages
