@@ -2,7 +2,8 @@ import random
 import interactions
 import secret
 import requests
-from interactions import ActionRow, Status, ComponentContext, SlashContext, SlashCommandOption, OptionType, Client, Activity, ModalContext, ShortText, ParagraphText
+from interactions import ActionRow, Status, ComponentContext, SlashContext, SlashCommandOption, OptionType, Client, Activity, ModalContext, ShortText, ParagraphText, ButtonStyle
+from interactions.ext.paginators import Paginator
 from nc_bot_sql import *
 import asyncio
 import pytz
@@ -83,41 +84,10 @@ async def search(ctx: interactions.SlashContext, query):
         except IndexError:
             print('womp')
 
-        message = await ctx.send(embeds = pages[0])
-
-        if trade_results[0] > 5 and ctx.guild_id:
-            await message.add_reaction('◀')
-            await message.add_reaction('▶')
-            await message.add_reaction('⏹️')
-
-            i = 0
-            j = 0
-
-            for count in timed_count(1.5, start=1):     
-                j += 1.5
-
-                if ctx.author in await message.fetch_reaction('◀'):
-                    if i > 0:
-                        i -= 1
-                        await message.edit(embeds = pages[i])
-                    j = 0
-                    await message.remove_reaction(emoji='◀', member=ctx.author)
-                elif ctx.author in await message.fetch_reaction('▶'):
-                    if i < len(pages)-1:
-                        i += 1
-                        await message.edit(embeds = pages[i])
-                    j = 0
-                    await message.remove_reaction(emoji='▶', member=ctx.author)
-                elif ctx.author in await message.fetch_reaction('⏹️'):
-                    await message.clear_all_reactions()
-                    break
-
-                #exit if half a minute goes by with no response
-                if j > 20:
-                    print("byebye!")
-                    break
-
-            await message.clear_all_reactions()
+        paginator = Paginator.create_from_embeds(bot, *pages)
+        paginator.default_button_color = ButtonStyle.RED
+        paginator.timeout_interval = 120
+        await paginator.send(ctx)
 
     else:
         womp = interactions.Embed (
