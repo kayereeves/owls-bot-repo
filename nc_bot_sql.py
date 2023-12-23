@@ -48,8 +48,15 @@ def runQuery(query, data=None, is_search=False, return_result=True):
     return None
 
 def add_user(discord_id: str, neo_username: str):
+    sanitized_user = neo_username
+
+    bad_chars = ['<','>','/','\\','"',"'",'?',';']
+
+    for c in bad_chars:
+        sanitized_user = sanitized_user.replace(c, '')
+
     query = """INSERT INTO registered_users(discord_id, neo_user) VALUES (%s, %s)"""
-    args = (discord_id, neo_username)
+    args = (discord_id, sanitized_user)
     try:
         runQuery(query, args)
         return True

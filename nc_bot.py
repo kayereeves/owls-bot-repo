@@ -1,13 +1,10 @@
-import random
 import interactions
 import secret
 import requests
-from interactions import ActionRow, Status, ComponentContext, SlashContext, SlashCommandOption, OptionType, Client, Activity, ModalContext, ShortText, ParagraphText, ButtonStyle
+from interactions import Status, SlashCommandOption, OptionType, Activity, ModalContext, ShortText, ParagraphText, ButtonStyle
 from interactions.ext.paginators import Paginator
 from nc_bot_sql import *
-import asyncio
 import pytz
-from timed_count import timed_count
 
 tok = secret.tok
 bot = interactions.Client(token=tok, status=Status.ONLINE, activity=Activity(name="ko-fi.com/owlsnc🎄"))
@@ -185,7 +182,7 @@ async def report(ctx: interactions.SlashContext):
             max_length=10,
         ),
         title = "Report a Neocash trade to OWLS",
-        custom_id = "report"
+        custom_id = "report" + "." + ctx.user.id.__str__() + "." + datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
     )
 
     user_modal = interactions.Modal(
@@ -197,7 +194,7 @@ async def report(ctx: interactions.SlashContext):
             max_length=20
         ),
         title = "Howdy stranger! 🤠",
-        custom_id = "username_entry"
+        custom_id = "username_entry" + "." + ctx.user.id.__str__() + "." + datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
     )
 
     #check if a user has registered their Neopets username with Owls already. if not, they will need to provide one before
@@ -226,7 +223,6 @@ async def report(ctx: interactions.SlashContext):
 
     await ctx.send_modal(modal=report_modal)
     modal_ctx: ModalContext = await ctx.bot.wait_for_modal(report_modal)
-    #await modal_response(ctx, modal_ctx.responses['sent'], modal_ctx.responses['received'], modal_ctx.responses['notes'], modal_ctx.responses['date'])
     success = modal_respond(ctx, modal_ctx.responses['sent'], modal_ctx.responses['received'], modal_ctx.responses['notes'], modal_ctx.responses['date'])
     
     if not success:
@@ -260,10 +256,6 @@ def modal_respond(ctx: interactions.SlashContext, sent: str, received: str, note
         return False
     else:
         return True
-    
-def neo_username_valid(user: str):
-    #todo: write regex?
-    pass
 
 print("OwlBot starting up!")
 bot.start()
