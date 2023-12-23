@@ -13,6 +13,11 @@ def userCheck(user_id):
         return True
     else:
         return False
+    
+def getUser(user_id):
+    query = "SELECT * FROM registered_users WHERE discord_id LIKE " + "'" + user_id + "';"
+    res = runQuery(query, is_search=True)
+    return res[0][1]
 
 def runQuery(query, data=None, is_search=False, return_result=True):
     conn = mysql.connector.connect(

@@ -241,20 +241,16 @@ async def report(ctx: interactions.SlashContext):
         await modal_ctx.send(embeds=success_message)
 
 def modal_respond(ctx: interactions.SlashContext, sent: str, received: str, notes:str, date:str):
-    #user discord tag
-    if ctx.guild_id:
-        user = ctx.author.user.username + "#" + ctx.author.user.discriminator
-    else:
-        user = ctx.user.username + "#" + ctx.user.discriminator
+    neo_user = getUser(ctx.user.id.__str__())
 
     #send the data to the database
-    result = add_trade(user, sent, received, date, notes)
+    result = add_trade(neo_user, sent, received, date, notes)
  
     if not result:
         return False
     else:
         return True
 
-print("OwlBot starting up!")
+print("\nOwlBot starting up!\n")
 bot.start()
-print("OwlBot shutting down!")
+print("\nOwlBot shutting down!\n")
