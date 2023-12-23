@@ -63,8 +63,6 @@ async def search(ctx: interactions.SlashContext, query):
         page.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
         if trade_results[0] < 5:
             page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!")
-        elif not ctx.guild_id:
-            page.set_footer(text="Only the first 5 results can be displayed via DM. Use OwlBot in a Discord server to see more!")
         else:
             page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!\nPage 1")
         pages = [page]
