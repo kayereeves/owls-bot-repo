@@ -9,7 +9,7 @@ import pytz
 from timed_count import timed_count
 
 tok = secret.tok
-bot = interactions.Client(token=tok, status=Status.ONLINE, activity=Activity(name="ko-fi.com/owlsnc ❤️"))
+bot = interactions.Client(token=tok, status=Status.ONLINE, activity=Activity(name="ko-fi.com/owlsnc🎄"))
 
 class my_button(interactions.Button):
     def __init__(self, *args, **kwargs):
@@ -60,9 +60,9 @@ async def search(ctx: interactions.SlashContext, query):
             page = interactions.Embed (
                 title = title_str,
                 description = trade_results[2][0],
-                color = 0x654321
+                color = 0xD21404
             )
-        page.set_thumbnail(url='https://neo-owls.net/images/bot_thumb_pride.png')
+        page.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
         if trade_results[0] < 5:
             page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!")
         elif not ctx.guild_id:
@@ -75,9 +75,9 @@ async def search(ctx: interactions.SlashContext, query):
                 page = interactions.Embed (
                     title = title_str,
                     description = trade_results[2][i],
-                    color = 0x654321   
+                    color = 0xD21404   
                 )               
-                page.set_thumbnail(url='https://neo-owls.net/images/bot_thumb_pride.png')
+                page.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
                 page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!\nPage " + str(i + 1))
                 pages.append(page) 
         except IndexError:
@@ -101,13 +101,13 @@ async def search(ctx: interactions.SlashContext, query):
                         i -= 1
                         await message.edit(embeds = pages[i])
                     j = 0
-                    await message.remove_reaction(emoji='◀', user=ctx.author)
+                    await message.remove_reaction(emoji='◀', member=ctx.author)
                 elif ctx.author in await message.fetch_reaction('▶'):
                     if i < len(pages)-1:
                         i += 1
                         await message.edit(embeds = pages[i])
                     j = 0
-                    await message.remove_reaction(emoji='▶', user=ctx.author)
+                    await message.remove_reaction(emoji='▶', member=ctx.author)
                 elif ctx.author in await message.fetch_reaction('⏹️'):
                     await message.clear_all_reactions()
                     break
@@ -123,9 +123,9 @@ async def search(ctx: interactions.SlashContext, query):
         womp = interactions.Embed (
             title="No results found :(",
             description = '```diff\nSorry, we don\'t have any trade reports for \'' + query + '\' just yet. Please make sure you\'re searching for the full, correct item name!```',
-            color = 0x654321
+            color = 0xD21404
         )
-        womp.set_thumbnail(url='https://neo-owls.net/images/bot_thumb_pride.png')
+        womp.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
         womp.set_footer(text=footer)
         await ctx.send(embeds = womp)
 
@@ -147,9 +147,9 @@ async def owl(ctx: interactions.SlashContext):
         ```\nSearch the database. You will be prompted to input the item which you wish to view trade reports for.```
         **/credits**
         ```\nView credits for OwlBot Reloaded.```""",
-        color = 0x654321
+        color = 0xD21404
     )
-    owl.set_thumbnail(url='https://neo-owls.net/images/bot_thumb_pride.png')
+    owl.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
                     
     await ctx.send(embeds=owl)
 
@@ -174,9 +174,9 @@ async def owlcredits(ctx: interactions.SlashContext):
         **🦉 YOU**
         ```\nthanks for submitting your trades to us, we couldn't do it without you ❤️```
         \nIf you would like to help support us monetarily, please check out our Ko-Fi page at https://ko-fi.com/owlsnc 🤗""",
-        color = 0x654321
+        color = 0xD21404
     )
-    owlcredits.set_thumbnail(url='https://neo-owls.net/images/bot_thumb_pride.png')
+    owlcredits.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
                     
     await ctx.send(embeds=owlcredits)
 
@@ -239,16 +239,16 @@ async def report(ctx: interactions.SlashContext):
 
         if add_success:
             register_message = interactions.Embed (
-            title = 'Thank you for registering your Neo username!',
+            title = 'Thank you for registering your Neopets username!',
             description = '```diff\n+ If you want to change or remove this later just contact an Owls team member! Use the /report command again to submit your trade report.\n```',
-            color = 0x654321  
+            color = 0xD21404  
             )
             await user_modal_ctx.send(embeds=register_message)
         else:
             register_failed = interactions.Embed (
             title = 'Something went wrong :(',
             description = '```diff\n- Please try again!\n```',
-            color = 0x654321  
+            color = 0xD21404  
             )
             await user_modal_ctx.send(embeds=register_failed)
 
@@ -263,17 +263,17 @@ async def report(ctx: interactions.SlashContext):
         failed_message = interactions.Embed (
         title = 'Trade report failed! :(',
         description = '```diff\n- Something went wrong, please try again and remember to format the date as YYYY-MM-DD!\n```',
-        color = 0x654321  
+        color = 0xD21404  
         )                 
-        failed_message.set_thumbnail(url='https://neo-owls.net/images/bot_thumb_pride.png')
+        failed_message.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
         await modal_ctx.send(embeds=failed_message)
     else:
         success_message = interactions.Embed (
         title = 'Trade reported successfully! :)',
         description = '```diff\n+ The Owls thank you! 🦉\n```',
-        color = 0x654321   
+        color = 0xD21404   
         )                 
-        success_message.set_thumbnail(url='https://neo-owls.net/images/bot_thumb_pride.png')
+        success_message.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
         await modal_ctx.send(embeds=success_message)
 
 def modal_respond(ctx: interactions.SlashContext, sent: str, received: str, notes:str, date:str):
