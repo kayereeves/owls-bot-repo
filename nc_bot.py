@@ -81,6 +81,10 @@ async def search(ctx: interactions.SlashContext, query):
 
         paginator = Paginator.create_from_embeds(bot, *pages)
         paginator.default_button_color = ButtonStyle.RED
+
+        if (len(pages) > 1):
+            paginator.timeout_interval = 120
+            
         await paginator.send(ctx)
 
     else:
