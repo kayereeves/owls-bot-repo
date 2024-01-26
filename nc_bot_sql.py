@@ -110,7 +110,7 @@ def return_trades(query, lax=False):
         item = query.lower()
 
         if lax:
-            print("lax search")
+            #print("lax search")
             query_retrieve = """SELECT * FROM
                             (SELECT 
                               traded AS item
