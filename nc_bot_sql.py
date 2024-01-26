@@ -97,7 +97,7 @@ def add_trade(user_id: str, sent: str, received: str, ds=None, notes: str=""):
         print(e)
         return False
 
-def return_trades(query):
+def return_trades(query, lax=False):
     #really don't like this but trying to execute it as a prepared statement
     #was making my head explode and there's no good reason these should be in an
     #item search anyway
@@ -109,7 +109,32 @@ def return_trades(query):
     try:
         item = query.lower()
 
-        query_retrieve = """SELECT * FROM
+        if lax:
+            print("lax search")
+            query_retrieve = """SELECT * FROM
+                            (SELECT 
+                              traded AS item
+                              , traded_for AS returned
+                              , ds 
+                              , notes
+                              , user_id
+                              FROM transactions
+                            WHERE traded LIKE '%%%s%%'
+                            UNION ALL
+                            SELECT 
+                              traded AS item
+                              , traded_for AS returned
+                              , ds
+                              , notes
+                              , user_id
+                              FROM transactions
+                            WHERE traded_for LIKE '%%%s%%') trns
+                            GROUP BY 1,2,3,4,5
+                            ORDER BY ds DESC
+                            LIMIT 20;""" %(item, item)
+
+        else:
+            query_retrieve = """SELECT * FROM
                             (SELECT 
                               traded AS item
                               , traded_for AS returned
@@ -121,7 +146,7 @@ def return_trades(query):
                             OR traded LIKE '""" + item + """ (%)%'
                             OR traded LIKE '% + """ + item + """ (%)'"""
 
-        query_retrieve += """UNION ALL
+            query_retrieve += """UNION ALL
                             SELECT 
                               traded AS item
                               , traded_for AS returned
@@ -133,7 +158,7 @@ def return_trades(query):
                             OR traded_for LIKE '""" + item + """ (%)%'
                             OR traded_for LIKE '% + """ + item + """ (%)'"""
             
-        query_retrieve += """) trns
+            query_retrieve += """) trns
                             GROUP BY 1,2,3,4,5
                             ORDER BY ds DESC
                             LIMIT 20;""" 
