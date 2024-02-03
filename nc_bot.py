@@ -327,9 +327,9 @@ async def report(ctx: interactions.SlashContext):
         except_message = interactions.Embed (
         title = 'Something went wrong :(',
         description = '```diff\n- Something went wrong, please send the command again!\n```',
-        color = 0xD21404  
+        color = 0xD21404
         )     
-        failed_message.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
+        except_message.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
         await modal_ctx.send(embeds=except_message)
 
 def modal_respond(ctx: interactions.SlashContext, sent: str, received: str, notes:str, date:str):
