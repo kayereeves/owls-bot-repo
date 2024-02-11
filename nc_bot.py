@@ -330,7 +330,7 @@ async def report(ctx: interactions.SlashContext):
         color = 0xD21404
         )     
         except_message.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
-        await modal_ctx.send(embeds=except_message)
+        await ctx.send(embeds=except_message)
 
 def modal_respond(ctx: interactions.SlashContext, sent: str, received: str, notes:str, date:str):
     neo_user = getUser(ctx.user.id.__str__())
