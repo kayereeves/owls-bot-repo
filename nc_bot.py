@@ -60,7 +60,7 @@ async def search(ctx: interactions.SlashContext, query):
                 description = trade_results[2][0],
                 color = 0xD21404
             )
-        page.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
+        page.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
         if trade_results[0] < 5:
             page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!")
         else:
@@ -73,7 +73,7 @@ async def search(ctx: interactions.SlashContext, query):
                     description = trade_results[2][i],
                     color = 0xD21404   
                 )               
-                page.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
+                page.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
                 page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!\nPage " + str(i + 1))
                 pages.append(page) 
         except IndexError:
@@ -93,7 +93,7 @@ async def search(ctx: interactions.SlashContext, query):
             description = '```diff\nSorry, we don\'t have any trade reports for \'' + query + '\' just yet. Please make sure you\'re searching for the full, correct item name!```',
             color = 0xD21404
         )
-        womp.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
+        womp.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
         womp.set_footer(text=footer)
         await ctx.send(embeds = womp)
 
@@ -137,7 +137,7 @@ async def lax_search(ctx: interactions.SlashContext, query):
                 description = trade_results[2][0],
                 color = 0xD21404
             )
-        page.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
+        page.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
         if trade_results[0] < 5:
             page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!")
         else:
@@ -150,7 +150,7 @@ async def lax_search(ctx: interactions.SlashContext, query):
                     description = trade_results[2][i],
                     color = 0xD21404   
                 )               
-                page.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
+                page.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
                 page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!\nPage " + str(i + 1))
                 pages.append(page) 
         except IndexError:
@@ -170,7 +170,7 @@ async def lax_search(ctx: interactions.SlashContext, query):
             description = '```diff\nSorry, we don\'t have any trade reports for \'' + query + '\' just yet. Please make sure you\'re searching for the full, correct item name!```',
             color = 0xD21404
         )
-        womp.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
+        womp.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
         womp.set_footer(text=footer)
         await ctx.send(embeds = womp)
 
@@ -196,7 +196,7 @@ async def owl(ctx: interactions.SlashContext):
         ```\nView credits for OwlBot Reloaded.```""",
         color = 0xD21404
     )
-    owl.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
+    owl.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
                     
     await ctx.send(embeds=owl)
 
@@ -223,7 +223,7 @@ async def owlcredits(ctx: interactions.SlashContext):
         \nIf you would like to help support us monetarily, please check out our Ko-Fi page at https://ko-fi.com/owlsnc 🤗""",
         color = 0xD21404
     )
-    owlcredits.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
+    owlcredits.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
                     
     await ctx.send(embeds=owlcredits)
 
@@ -312,7 +312,7 @@ async def report(ctx: interactions.SlashContext):
             description = '```diff\n- Something went wrong, please try again and remember to format the date as YYYY-MM-DD!\n```',
             color = 0xD21404  
             )                 
-            failed_message.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
+            failed_message.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
             await modal_ctx.send(embeds=failed_message)
         else:
             success_message = interactions.Embed (
@@ -320,7 +320,7 @@ async def report(ctx: interactions.SlashContext):
             description = '```diff\n+ The Owls thank you! 🦉\n```',
             color = 0xD21404   
             )                 
-            success_message.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
+            success_message.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
             await modal_ctx.send(embeds=success_message)
     except:
         print("exception occurred")
@@ -329,7 +329,7 @@ async def report(ctx: interactions.SlashContext):
         description = '```diff\n- Something went wrong, please send the command again!\n```',
         color = 0xD21404
         )     
-        except_message.set_thumbnail(url='https://i.imgur.com/Q3ES5r7.jpeg')
+        except_message.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
         await ctx.send(embeds=except_message)
 
 def modal_respond(ctx: interactions.SlashContext, sent: str, received: str, notes:str, date:str):
