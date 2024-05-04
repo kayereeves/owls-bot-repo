@@ -58,7 +58,7 @@ async def search(ctx: interactions.SlashContext, query):
             page = interactions.Embed (
                 title = title_str,
                 description = trade_results[2][0],
-                color = 0xD21404
+                color = 0x58e2bb
             )
         page.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
         if trade_results[0] < 5:
@@ -71,7 +71,7 @@ async def search(ctx: interactions.SlashContext, query):
                 page = interactions.Embed (
                     title = title_str,
                     description = trade_results[2][i],
-                    color = 0xD21404   
+                    color = 0x58e2bb   
                 )               
                 page.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
                 page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!\nPage " + str(i + 1))
@@ -91,7 +91,7 @@ async def search(ctx: interactions.SlashContext, query):
         womp = interactions.Embed (
             title="No results found :(",
             description = '```diff\nSorry, we don\'t have any trade reports for \'' + query + '\' just yet. Please make sure you\'re searching for the full, correct item name!```',
-            color = 0xD21404
+            color = 0x58e2bb
         )
         womp.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
         womp.set_footer(text=footer)
@@ -135,7 +135,7 @@ async def lax_search(ctx: interactions.SlashContext, query):
             page = interactions.Embed (
                 title = title_str,
                 description = trade_results[2][0],
-                color = 0xD21404
+                color = 0x58e2bb
             )
         page.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
         if trade_results[0] < 5:
@@ -148,7 +148,7 @@ async def lax_search(ctx: interactions.SlashContext, query):
                 page = interactions.Embed (
                     title = title_str,
                     description = trade_results[2][i],
-                    color = 0xD21404   
+                    color = 0x58e2bb   
                 )               
                 page.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
                 page.set_footer(text="Submitting trade reports or searching the database is easy! Just type / to use the commands!\nPage " + str(i + 1))
@@ -168,7 +168,7 @@ async def lax_search(ctx: interactions.SlashContext, query):
         womp = interactions.Embed (
             title="No results found :(",
             description = '```diff\nSorry, we don\'t have any trade reports for \'' + query + '\' just yet. Please make sure you\'re searching for the full, correct item name!```',
-            color = 0xD21404
+            color = 0x58e2bb
         )
         womp.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
         womp.set_footer(text=footer)
@@ -194,7 +194,7 @@ async def owl(ctx: interactions.SlashContext):
         ```\nSearch the database via non-specific method. Useful when searching for partial names, e.g.: "nostalgic plushie"```
         **/credits**
         ```\nView credits for OwlBot Reloaded.```""",
-        color = 0xD21404
+        color = 0x58e2bb
     )
     owl.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
                     
@@ -221,7 +221,7 @@ async def owlcredits(ctx: interactions.SlashContext):
         **🦉 YOU**
         ```\nthanks for submitting your trades to us, we couldn't do it without you ❤️```
         \nIf you would like to help support us monetarily, please check out our Ko-Fi page at https://ko-fi.com/owlsnc 🤗""",
-        color = 0xD21404
+        color = 0x58e2bb
     )
     owlcredits.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
                     
@@ -289,14 +289,14 @@ async def report(ctx: interactions.SlashContext):
                 register_message = interactions.Embed (
                 title = 'Thank you for registering your Neopets username!',
                 description = '```diff\n+ If you want to change or remove this later just contact an Owls team member! Use the /report command again to submit your trade report.\n```',
-                color = 0xD21404  
+                color = 0x58e2bb  
                 )
                 await user_modal_ctx.send(embeds=register_message)
             else:
                 register_failed = interactions.Embed (
                 title = 'Something went wrong :(',
                 description = '```diff\n- Please try again!\n```',
-                color = 0xD21404  
+                color = 0x58e2bb  
                 )
                 await user_modal_ctx.send(embeds=register_failed)
 
@@ -310,7 +310,7 @@ async def report(ctx: interactions.SlashContext):
             failed_message = interactions.Embed (
             title = 'Trade report failed! :(',
             description = '```diff\n- Something went wrong, please try again and remember to format the date as YYYY-MM-DD!\n```',
-            color = 0xD21404  
+            color = 0x58e2bb  
             )                 
             failed_message.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
             await modal_ctx.send(embeds=failed_message)
@@ -318,7 +318,7 @@ async def report(ctx: interactions.SlashContext):
             success_message = interactions.Embed (
             title = 'Trade reported successfully! :)',
             description = '```diff\n+ The Owls thank you! 🦉\n```',
-            color = 0xD21404   
+            color = 0x58e2bb   
             )                 
             success_message.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
             await modal_ctx.send(embeds=success_message)
@@ -327,7 +327,7 @@ async def report(ctx: interactions.SlashContext):
         except_message = interactions.Embed (
         title = 'Something went wrong :(',
         description = '```diff\n- Something went wrong, please send the command again!\n```',
-        color = 0xD21404
+        color = 0x58e2bb
         )     
         except_message.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
         await ctx.send(embeds=except_message)
