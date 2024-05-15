@@ -342,6 +342,64 @@ def modal_respond(ctx: interactions.SlashContext, sent: str, received: str, note
         return False
     else:
         return True
+    
+#easy board C & P comment
+@interactions.slash_command(
+        name="board-post",
+        description="Quickly generate a board post with 5 or 10 most recent values",
+        options=[
+            SlashCommandOption(
+                name="query",
+                description="The item you wish to view reports for.",
+                type=OptionType.STRING,
+                required=True
+            )
+            ],
+)
+
+async def board_post(ctx: interactions.SlashContext, query):
+    query = query.replace(",", "")
+    trade_results = return_trades(query)
+    date_and_values = ""
+    
+    query = query.lower()
+
+    
+    if trade_results != False:
+
+        #removes ` from results and filters out empty parts of list
+        holder = list(trade_results[2][0].split("`"))
+        holder = list(filter(None, holder))
+
+        #for the first trade only (can't multiple by 0)
+        date_and_values = holder[0] + ": "
+        holder[2] = holder[2].lower()
+        count = holder[2].find(query)
+        item_in_trade = holder[2][count:]
+        print(item_in_trade) 
+        value = item_in_trade[item_in_trade.find('(')+1:item_in_trade.find(')')]
+        date_and_values += value + "\n"
+
+        # all other reports
+        for trade in range(1, min(trade_results[0], 5)):
+            date_and_values += holder[trade * 4] + ": "
+
+            holder[trade * 4 + 2] = holder[trade * 4 + 2].lower()
+            count = holder[trade * 4 + 2].find(query)
+
+            item_in_trade = holder[trade * 4 + 2][count:]
+
+            value = item_in_trade[item_in_trade.find('(')+1:item_in_trade.find(')')]
+            date_and_values += value + "\n"
+    else:
+        date_and_values = "Sorry, no reports found. Please consider reporting to us if you trade!"
+
+    
+    post = interactions.Embed (
+        title = query,
+        description = date_and_values
+    )
+    await ctx.send(embed=post)
 
 print("\nOwlBot starting up!\n")
 bot.start()
