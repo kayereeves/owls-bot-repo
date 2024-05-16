@@ -364,7 +364,7 @@ async def board_post(ctx: interactions.SlashContext, query):
     query = query.replace(",", "")
     query = query.lower()
     trade_results = data_for_board_post(query)[:5] #the first 5 trade results
-    formatted_string = "~" + query + '~\n'
+    formatted_string = query + '\n'
 
     if len(trade_results) == 0:
         formatted_string += "No data, please consider reporting if you find a trade!" + '\n'
@@ -398,7 +398,7 @@ async def board_post(ctx: interactions.SlashContext, query):
         description = formatted_string,
         color = 0x58e2bb
     )
-    await ctx.send(embed=post)
+    await ctx.send(content=formatted_string)
 
 print("\nOwlBot starting up!\n")
 bot.start()
