@@ -363,12 +363,11 @@ async def board_post(ctx: interactions.SlashContext, query):
     date_and_values = ""
     
     query = query.lower()
-
     
     if trade_results != False:
 
-        #removes ` from results and filters out empty parts of list
         holder = list(trade_results[2][0].split("`"))
+    
         holder = list(filter(None, holder))
 
         #for the first trade only (can't multiple by 0)
@@ -376,23 +375,48 @@ async def board_post(ctx: interactions.SlashContext, query):
         holder[2] = holder[2].lower()
         count = holder[2].find(query)
         item_in_trade = holder[2][count:]
-        print(item_in_trade) 
         value = item_in_trade[item_in_trade.find('(')+1:item_in_trade.find(')')]
         date_and_values += value + "\n"
 
+        count = 1
         # all other reports
         for trade in range(1, min(trade_results[0], 5)):
-            date_and_values += holder[trade * 4] + ": "
+            date = holder[trade * 4]
 
-            holder[trade * 4 + 2] = holder[trade * 4 + 2].lower()
-            count = holder[trade * 4 + 2].find(query)
+            # if the pattern of date matches
+            if re.match('\d\d\d\d-\d\d-\d\d', date):
+                date_and_values += date + ": "
 
-            item_in_trade = holder[trade * 4 + 2][count:]
+                holder[trade * 4 + 2] = holder[trade * 4 + 2].lower()
+                count = holder[trade * 4 + 2].find(query)
 
-            value = item_in_trade[item_in_trade.find('(')+1:item_in_trade.find(')')]
-            date_and_values += value + "\n"
+                item_in_trade = holder[trade * 4 + 2][count:]
+
+                value = item_in_trade[item_in_trade.find('(')+1:item_in_trade.find(')')]
+                date_and_values += value + "\n"
+            #account of offset of 1
+            elif count % 2 != 0:
+                date_and_values += holder[trade * 4 - trade + 2] + ": "
+                holder[trade * 4] = holder[trade * 4].lower()
+                count = holder[trade * 4].find(query)
+
+                item_in_trade = holder[trade * 4][count:]
+
+                value = item_in_trade[item_in_trade.find('(')+1:item_in_trade.find(')')]
+                date_and_values += value + "\n"
+            # when there is a missing date
+            else:
+                count += 1
+                date_and_values += holder[trade * 4 - trade - 1] + ": "
+                holder[trade * 4] = holder[trade * 4].lower()
+                count = holder[trade * 4].find(query)
+
+                item_in_trade = holder[trade * 4 + 3 - trade][count:]
+
+                value = item_in_trade[item_in_trade.find('(')+1:item_in_trade.find(')')]
+                date_and_values += value + "\n"
     else:
-        date_and_values = "Sorry, no reports found. Please consider reporting to us if you trade!"
+        date_and_values = "Sorry, no reports found. Please consider reporting if you trade!"
 
     
     post = interactions.Embed (
