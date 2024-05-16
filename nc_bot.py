@@ -364,7 +364,7 @@ async def board_post(ctx: interactions.SlashContext, query):
     query = query.replace(",", "")
     query = query.lower()
     trade_results = data_for_board_post(query)[:5] #the first 5 trade results
-    formatted_string = "```~" + query + '~\n'
+    formatted_string = "~" + query + '~\n'
 
     if len(trade_results) == 0:
         formatted_string += "No data, please consider reporting if you find a trade!" + '\n'
@@ -392,8 +392,6 @@ async def board_post(ctx: interactions.SlashContext, query):
                 value = item_in_trade[item_in_trade.find('(')+1:item_in_trade.find(')')]
 
             formatted_string += value + '\n'
-
-    formatted_string += "```"
 
     post = interactions.Embed (
         title = "NeoBoard-style VC data for " + query + ':',
