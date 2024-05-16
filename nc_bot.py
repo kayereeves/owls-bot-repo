@@ -5,6 +5,7 @@ from interactions import Status, SlashCommandOption, OptionType, Activity, Modal
 from interactions.ext.paginators import Paginator
 from nc_bot_sql import *
 import pytz
+import re
 
 tok = secret.tok
 bot = interactions.Client(token=tok, status=Status.ONLINE, activity=Activity(name="ko-fi.com/owlsnc🦉"))
@@ -192,6 +193,8 @@ async def owl(ctx: interactions.SlashContext):
         ```\nSearch the database. You will be prompted to input the item which you wish to view trade reports for.```
         **/lax-search**
         ```\nSearch the database via non-specific method. Useful when searching for partial names, e.g.: "nostalgic plushie"```
+        **/board-post**
+        ```\nSearch the database and return an OWLS NeoBoard-style VC, with dates and values only.```
         **/credits**
         ```\nView credits for OwlBot Reloaded.```""",
         color = 0x58e2bb
@@ -343,10 +346,10 @@ def modal_respond(ctx: interactions.SlashContext, sent: str, received: str, note
     else:
         return True
     
-#easy board C & P comment
+#searches the database and returns an OWLS NeoBoard-style VC, with dates and values only
 @interactions.slash_command(
         name="board-post",
-        description="Quickly generate a board post with 5 or 10 most recent values",
+        description="Searches the database and returns an OWLS NeoBoard-style VC, with dates and values only.",
         options=[
             SlashCommandOption(
                 name="query",
@@ -359,69 +362,43 @@ def modal_respond(ctx: interactions.SlashContext, sent: str, received: str, note
 
 async def board_post(ctx: interactions.SlashContext, query):
     query = query.replace(",", "")
-    trade_results = return_trades(query)
-    date_and_values = ""
-    
     query = query.lower()
-    
-    if trade_results != False:
+    trade_results = data_for_board_post(query)[:5] #the first 5 trade results
+    formatted_string = "```~" + query + '~\n'
 
-        holder = list(trade_results[2][0].split("`"))
-    
-        holder = list(filter(None, holder))
+    if len(trade_results) == 0:
+        formatted_string += "No data, please consider reporting if you find a trade!" + '\n'
 
-        #for the first trade only (can't multiple by 0)
-        date_and_values = holder[0] + ": "
-        holder[2] = holder[2].lower()
-        count = holder[2].find(query)
-        item_in_trade = holder[2][count:]
-        value = item_in_trade[item_in_trade.find('(')+1:item_in_trade.find(')')]
-        date_and_values += value + "\n"
-
-        count = 1
-        # all other reports
-        for trade in range(1, min(trade_results[0], 5)):
-            date = holder[trade * 4]
-
-            # if the pattern of date matches
-            if re.match('\d\d\d\d-\d\d-\d\d', date):
-                date_and_values += date + ": "
-
-                holder[trade * 4 + 2] = holder[trade * 4 + 2].lower()
-                count = holder[trade * 4 + 2].find(query)
-
-                item_in_trade = holder[trade * 4 + 2][count:]
-
-                value = item_in_trade[item_in_trade.find('(')+1:item_in_trade.find(')')]
-                date_and_values += value + "\n"
-            #account of offset of 1
-            elif count % 2 != 0:
-                date_and_values += holder[trade * 4 - trade + 2] + ": "
-                holder[trade * 4] = holder[trade * 4].lower()
-                count = holder[trade * 4].find(query)
-
-                item_in_trade = holder[trade * 4][count:]
-
-                value = item_in_trade[item_in_trade.find('(')+1:item_in_trade.find(')')]
-                date_and_values += value + "\n"
-            # when there is a missing date
-            else:
-                count += 1
-                date_and_values += holder[trade * 4 - trade - 1] + ": "
-                holder[trade * 4] = holder[trade * 4].lower()
-                count = holder[trade * 4].find(query)
-
-                item_in_trade = holder[trade * 4 + 3 - trade][count:]
-
-                value = item_in_trade[item_in_trade.find('(')+1:item_in_trade.find(')')]
-                date_and_values += value + "\n"
     else:
-        date_and_values = "Sorry, no reports found. Please consider reporting if you trade!"
+        for row in trade_results:
+            #if date is present
+            if row[2]:
+                formatted_date = row[2].strftime('%Y-%m-%d')
+            #if date is blank
+            else:
+                formatted_date = "no date"
+        
+            formatted_string += formatted_date + ': '
 
-    
+            #if item found in sent
+            if query in str(row[0]).lower():
+                index = row[0].lower().find(query)
+                item_in_trade = row[0][index:]
+                value = item_in_trade[item_in_trade.find('(')+1:item_in_trade.find(')')]
+            #if item found in received
+            else:
+                index = row[1].lower().find(query)
+                item_in_trade = row[1][index:]
+                value = item_in_trade[item_in_trade.find('(')+1:item_in_trade.find(')')]
+
+            formatted_string += value + '\n'
+
+    formatted_string += "```"
+
     post = interactions.Embed (
-        title = query,
-        description = date_and_values
+        title = "NeoBoard-style VC data for " + query + ':',
+        description = formatted_string,
+        color = 0x58e2bb
     )
     await ctx.send(embed=post)
 

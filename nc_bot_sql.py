@@ -225,3 +225,49 @@ def return_trades(query, lax=False):
     except Exception as e:
         print(e)
         return False
+
+#returns unformatted data for board vc command
+def data_for_board_post(query):
+    bad_chars = ['<','>','/','\\','"',"'",'?',';']
+
+    for c in bad_chars:
+        query = query.replace(c, '')
+
+    try:
+        item = query.lower()
+
+        query_retrieve = """SELECT * FROM
+                            (SELECT 
+                              traded AS item
+                              , traded_for AS returned
+                              , ds 
+                              , notes
+                              , user_id
+                              FROM transactions
+                            WHERE traded LIKE '% + """ + item + """ (%) + %'
+                            OR traded LIKE '""" + item + """ (%)%'
+                            OR traded LIKE '% + """ + item + """ (%)'"""
+
+        query_retrieve += """UNION ALL
+                            SELECT 
+                              traded AS item
+                              , traded_for AS returned
+                              , ds
+                              , notes
+                              , user_id
+                              FROM transactions
+                            WHERE traded_for LIKE '% + """ + item + """ (%) + %'
+                            OR traded_for LIKE '""" + item + """ (%)%'
+                            OR traded_for LIKE '% + """ + item + """ (%)'"""
+            
+        query_retrieve += """) trns
+                            GROUP BY 1,2,3,4,5
+                            ORDER BY ds DESC
+                            LIMIT 20;"""
+        
+        results = runQuery(query_retrieve, None, is_search=True)
+        return results
+        
+    except Exception as e:
+        print(e)
+        return False
