@@ -81,10 +81,10 @@ async def search(ctx: interactions.SlashContext, query):
             print('womp')
 
         paginator = Paginator.create_from_embeds(bot, *pages)
-        paginator.default_button_color = ButtonStyle.RED
+        paginator.default_button_color = ButtonStyle.GREEN
 
-        if (len(pages) > 1):
-            paginator.timeout_interval = 120
+        #if (len(pages) > 1):
+            #paginator.timeout_interval = 120
             
         await paginator.send(ctx)
 
@@ -158,10 +158,10 @@ async def lax_search(ctx: interactions.SlashContext, query):
             print('womp')
 
         paginator = Paginator.create_from_embeds(bot, *pages)
-        paginator.default_button_color = ButtonStyle.RED
+        paginator.default_button_color = ButtonStyle.GREEN
 
-        if (len(pages) > 1):
-            paginator.timeout_interval = 120
+        #if (len(pages) > 1):
+            #paginator.timeout_interval = 120
             
         await paginator.send(ctx)
 
