@@ -307,7 +307,7 @@ async def report(ctx: interactions.SlashContext):
 
         await ctx.send_modal(modal=report_modal)
         modal_ctx: ModalContext = await ctx.bot.wait_for_modal(report_modal)
-        success = modal_respond(ctx, modal_ctx.responses['sent'], modal_ctx.responses['received'], modal_ctx.responses['notes'], modal_ctx.responses['date'])
+        success = await modal_respond(ctx, modal_ctx.responses['sent'], modal_ctx.responses['received'], modal_ctx.responses['notes'], modal_ctx.responses['date'])
     
         if not success:
             failed_message = interactions.Embed (
@@ -335,7 +335,7 @@ async def report(ctx: interactions.SlashContext):
         except_message.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
         await ctx.send(embeds=except_message)
 
-def modal_respond(ctx: interactions.SlashContext, sent: str, received: str, notes:str, date:str):
+async def modal_respond(ctx: interactions.SlashContext, sent: str, received: str, notes:str, date:str):
     neo_user = getUser(ctx.user.id.__str__())
 
     #send the data to the database
