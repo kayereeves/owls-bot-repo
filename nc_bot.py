@@ -36,6 +36,11 @@ class my_button(interactions.Button):
 )
             
 async def search(ctx: interactions.SlashContext, query):
+    is_banned = await banned_user(ctx)
+
+    if is_banned:
+        return
+    
     query = query.replace(",", "")
     trade_results = return_trades(query)
     footer = "Submitting trade reports or searching the database is easy! Just type / to use the commands!"
@@ -113,6 +118,11 @@ async def search(ctx: interactions.SlashContext, query):
 )
             
 async def lax_search(ctx: interactions.SlashContext, query):
+    is_banned = await banned_user(ctx)
+
+    if is_banned:
+        return
+    
     query = query.replace(",", "")
     trade_results = return_trades(query, lax=True)
     footer = "Submitting trade reports or searching the database is easy! Just type / to use the commands!"
@@ -182,6 +192,11 @@ async def lax_search(ctx: interactions.SlashContext, query):
 )
 
 async def owl(ctx: interactions.SlashContext):
+    is_banned = await banned_user(ctx)
+
+    if is_banned:
+        return
+    
     owl = interactions.Embed (
         title = 'OwlBot Reloaded Help',
         description = 
@@ -210,6 +225,11 @@ async def owl(ctx: interactions.SlashContext):
 )            
 
 async def owlcredits(ctx: interactions.SlashContext):
+    is_banned = await banned_user(ctx)
+
+    if is_banned:
+        return
+    
     owlcredits = interactions.Embed (
         title = 'OwlBot Credits!',
         description = 
@@ -223,7 +243,7 @@ async def owlcredits(ctx: interactions.SlashContext):
         ```\nworking tirelessly to collect, record, and count trade data```
         **🦉 YOU**
         ```\nthanks for submitting your trades to us, we couldn't do it without you ❤️```
-        \nIf you would like to help support us monetarily, please check out our Ko-Fi page at https://ko-fi.com/owlsnc 🤗""",
+        \nNEOPETS and all related indicia are trademarks of Neopets, Inc., © 1999-2024.\n\nOwls is a volunteer project run by fans, for fans. If you would like to help support us monetarily, please check out our Ko-Fi page at https://ko-fi.com/owlsnc 🤗""",
         color = 0x58e2bb
     )
     owlcredits.set_thumbnail(url='https://i.imgur.com/kpdvrT9.png')
@@ -238,25 +258,33 @@ async def owlcredits(ctx: interactions.SlashContext):
 )
 
 async def report(ctx: interactions.SlashContext):
+    is_banned = await banned_user(ctx)
+
+    if is_banned:
+        return
+    
     try:
         report_modal = interactions.Modal(
             ParagraphText(
                 label="Sent (Full item names & personal values!)",
                 custom_id="sent",
                 placeholder="Plz follow format or report may not appear in searches! Ex.: Item (1-2) + Another Item (10) + 2 GBCs",
-                min_length=1
+                min_length=1,
+                max_length=500
             ),
             ParagraphText(
                 label="Received (Full item names & personal values!)",
                 custom_id="received",
                 placeholder="Plz follow format or report may not appear in searches! Ex.: Item (1-2) + Another Item (10) + 2 GBCs",
-                min_length=1
+                min_length=1,
+                max_length=500
             ),
             ParagraphText(
                 label="Notes",
                 custom_id="notes",
                 value="Fair",
-                min_length=0
+                min_length=0,
+                max_length=200
             ),
             ShortText(
                 label="Date (YYYY-MM-DD format only please)",
@@ -361,6 +389,11 @@ async def modal_respond(ctx: interactions.SlashContext, sent: str, received: str
 )
 
 async def board_post(ctx: interactions.SlashContext, query):
+    is_banned = await banned_user(ctx)
+
+    if is_banned:
+        return
+    
     query = query.replace(",", "")
     query = query.lower()
     trade_results = data_for_board_post(query)[:5] #the first 5 trade results
@@ -399,6 +432,19 @@ async def board_post(ctx: interactions.SlashContext, query):
         color = 0x58e2bb
     )
     await ctx.send(content=formatted_string)
+
+async def banned_user(ctx):
+    uid = ctx.user.id.__str__()
+    if isBanned(uid):
+        reason = banReason(uid)
+        banned_message = interactions.Embed (
+        title = 'Sorry, you are banned from using OwlBot.',
+        description = '```diff\nYour account has been banned from accessing OwlBot for the following reason:\n\n-' + reason + '\n\nIf you would like to appeal this, please contact an Owls team member.\n```',
+        color = 0xff0000
+        )
+        await ctx.send(embeds=banned_message, ephemeral=True)
+        return True
+    return False
 
 print("\nOwlBot starting up!\n")
 bot.start()

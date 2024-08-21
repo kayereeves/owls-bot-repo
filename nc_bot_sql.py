@@ -19,6 +19,18 @@ def getUser(user_id):
     res = runQuery(query, is_search=True)
     return res[0][1]
 
+def isBanned(user_id):
+    query = "SELECT * FROM banned_users WHERE discord_id LIKE " + "'" + user_id + "';"
+    if runQuery(query, is_search=True):
+        return True
+    else:
+        return False
+    
+def banReason(user_id):
+    query = "SELECT * FROM banned_users WHERE discord_id LIKE " + "'" + user_id + "';"
+    res = runQuery(query, is_search=True)
+    return res[0][1]
+
 def runQuery(query, data=None, is_search=False, return_result=True):
     conn = mysql.connector.connect(
         host=secret.host,
