@@ -282,7 +282,8 @@ async def report(ctx: interactions.SlashContext):
             ParagraphText(
                 label="Notes",
                 custom_id="notes",
-                value="Fair",
+                placeholder="Notes are moderated and may not include spam or vulgar material. Inappropriate notes risk a ban!",
+                required=False,
                 min_length=0,
                 max_length=200
             ),
@@ -291,7 +292,7 @@ async def report(ctx: interactions.SlashContext):
                 custom_id="date",
                 value=datetime.now(pytz.timezone('US/Pacific')).strftime('%Y-%m-%d'),
                 min_length=10,
-                max_length=10,
+                max_length=10
             ),
             title = "Report a Neocash trade to OWLS",
             custom_id = "report" + "." + ctx.user.id.__str__() + "." + datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
